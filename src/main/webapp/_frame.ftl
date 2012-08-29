@@ -28,6 +28,9 @@
   	</div>
   
   	<script type="text/javascript">
+  		$(function() {
+			brite.display("MainScreen");
+		});
 	</script>
   </body>
 </html>

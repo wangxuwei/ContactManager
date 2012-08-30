@@ -1,0 +1,18 @@
+<script id="tmpl-ContactsPanel" type="text/html">
+	<div class="ContactsPanel panel">
+		<div class="ContactsPanel-header panel-header">
+			Contacts
+		</div>
+		<div class="ContactsPanel-content panel-content">
+			<ul class="contactsList">
+			</ul>
+		</div>
+	</div>  
+</script>
+<script id="tmpl-ContactsPanel-contactItem" type="text/html">
+	<li class="contactItem" data-obj_type="contact" data-obj_id="{{:id}}">
+		<span class="text">{{:name}}</span>
+		<div class="btn btnDelete">&times;</div>
+		<div class="btn btnEdit">Edit</div>
+	</li>
+</script>

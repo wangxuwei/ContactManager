@@ -56,6 +56,11 @@
 					refresh.call(c);
 				});
 			});
+			
+			$e.on("btap",".groupItem .text",function(){
+				var obj = $(this).bObjRef();
+				brite.display("ContactsPanel",{groupId:obj.id * 1});
+			});
 		}
 
 		// --------- /Component Interface Implementation ---------- //

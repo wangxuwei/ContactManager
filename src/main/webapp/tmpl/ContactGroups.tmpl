@@ -1,0 +1,24 @@
+<script id="tmpl-ContactGroups" type="text/html">
+	<div class="ContactGroups modal">
+		<div class="ContactGroups-header modal-header">
+			<div class="close btnClose">X</div>
+			<h3>Select Groups</h3>
+		</div>
+		<div class="ContactGroups-content modal-body">
+			<div class="form-horizontal">
+				<div class="control-group">
+					<div class="control-label">Groups:</div>
+					<div class="controls">
+						{{for groups}}
+							<input type='checkbox' name="group" value="{{:id}}" {{if checked}}checked{{/if}} /> {{:name}} <br/>
+						{{/for}}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="ContactGroups-footer modal-footer">
+			<div class="btn btn-primary btnUpdate">update</div>
+			<div class="btn btnClose">Close</div>
+		</div>
+	</div>  
+</script>

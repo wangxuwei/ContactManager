@@ -14,10 +14,6 @@
 	 *  format: [method_name]([args]) : [concise description]
 	 *  - none
 	 *
-	 * Component Events:
-	 *  - MainScreen_DO_SHOW_CHARITIES: Show the charities 
-	 *  - ..TODO: put the other DO_SHOW_ events here ...
-	 *  - MainScreen_DO_CLOSE_POPUP
 	 *
 	 */
 	(function($) {
@@ -37,7 +33,15 @@
 			var c = this;
 			var $e = c.$element;
 			
-
+			brite.display("GroupsPanel");
+			
+			$e.on("btap",".btnCreateGroup",function(){
+				brite.display("GroupCreate").done(function(groupCreate){
+					groupCreate.onUpdate(function(){
+						$e.trigger("MainScreen_GROUPSPANEL_REFRESH");
+					});
+				});
+			});
 		}
 
 		// --------- /Component Interface Implementation ---------- //

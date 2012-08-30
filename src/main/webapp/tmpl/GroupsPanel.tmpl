@@ -1,0 +1,18 @@
+<script id="tmpl-GroupsPanel" type="text/html">
+	<div class="GroupsPanel panel">
+		<div class="GroupsPanel-header panel-header">
+			Groups
+		</div>
+		<div class="GroupsPanel-content panel-content">
+			<ul class="groupsList">
+			</ul>
+		</div>
+	</div>  
+</script>
+<script id="tmpl-GroupsPanel-groupItem" type="text/html">
+	<li class="groupItem" data-obj_type="group" data-obj_id="{{:id}}">
+		<span class="text">{{:name}}</span>
+		<div class="btn btnDelete">&times;</div>
+		<div class="btn btnEdit">Edit</div>
+	</li>
+</script>

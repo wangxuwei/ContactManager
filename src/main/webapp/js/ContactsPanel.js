@@ -54,9 +54,32 @@
 			
 			$e.on("btap",".btnDelete",function(){
 				var obj = $(this).bObjRef();
-				brite.dao.remove("Contact",obj.id).done(function(){
-					refresh.call(c);
+				var contactId = obj.id * 1;
+				var dfd = $.Deferred();
+				brite.dao.list("GroupContact",{match:{contact_id:contactId}}).done(function(contactGroups){
+					if(contactGroups.length > 0){
+						app.util.serialResolve(contactGroups,function(contactGroup){
+							var innerDfd = $.Deferred();
+							brite.dao.remove("GroupContact",contactGroup.id).done(function(){
+								innerDfd.resolve();
+							});
+							
+							return innerDfd.promise();
+						}).done(function(){
+							dfd.resolve();
+						});
+					}else{
+						dfd.resolve();
+					}
+					
 				});
+				
+				dfd.done(function(){
+					brite.dao.remove("Contact",contactId).done(function(){
+						refresh.call(c);
+					});
+				});
+				
 			});
 			
 			$e.on("btap",".btnSelectGroup",function(){

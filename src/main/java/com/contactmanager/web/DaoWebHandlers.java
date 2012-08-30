@@ -7,6 +7,7 @@ import com.britesnow.snow.util.JsonUtil;
 import com.britesnow.snow.util.ObjectUtil;
 import com.britesnow.snow.web.handler.annotation.WebActionHandler;
 import com.britesnow.snow.web.handler.annotation.WebModelHandler;
+import com.britesnow.snow.web.param.annotation.WebModel;
 import com.britesnow.snow.web.param.annotation.WebParam;
 import com.contactmanager.dao.DaoRegistry;
 import com.contactmanager.dao.IDao;
@@ -30,14 +31,14 @@ public class DaoWebHandlers {
     }
 
     @WebModelHandler(startsWith = "/daoGet")
-    public void daoGet(Map m, @WebParam("objType") String objType, @WebParam("obj_id") Long id) {
+    public void daoGet(@WebModel Map m, @WebParam("objType") String objType, @WebParam("obj_id") Long id) {
         IDao dao = daoRegistry.getDao(objType);
         Object obj = dao.get(id);
         m.put("result", obj);
     }
 
     @WebModelHandler(startsWith = "/daoList")
-    public void daoList(Map m, @WebParam("objType") String objType, @WebParam("opts") String jsonOpts) {
+    public void daoList(@WebModel Map m, @WebParam("objType") String objType, @WebParam("opts") String jsonOpts) {
         IDao dao = daoRegistry.getDao(objType);
         
         JSONOptions opts = new JSONOptions(jsonOpts);

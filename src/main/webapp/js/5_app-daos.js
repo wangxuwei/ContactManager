@@ -46,9 +46,11 @@ var app = app || {};
 		brite.registerDao("Group",new brite.dao.SQLiteDao("t_group","id",groupTable));
 		brite.registerDao("Contact",new brite.dao.SQLiteDao("t_contact","id",contactTable));
 		brite.registerDao("GroupContact",new brite.dao.SQLiteDao("t_group_contact","id",groupContactTable));
-		
 	}else{
 		//register RemoteDao
+		brite.registerDao("Group",new brite.dao.RemoteDao("Group"));
+		brite.registerDao("Contact",new brite.dao.RemoteDao("Contact"));
+		brite.registerDao("GroupContact",new brite.dao.RemoteDao("GroupContact"));
 	}
 
 })();

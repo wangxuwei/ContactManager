@@ -2,8 +2,8 @@ var app = app || {};
 
 (function($){
 	
-	// if mock true use SQLiteDao
-	app.mock = true;
+	// if mock true use SQLiteDao,else use remote dao
+	app.mock = false;
 
 })();
 

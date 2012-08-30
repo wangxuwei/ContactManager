@@ -5,7 +5,6 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "t_contact")
-@javax.persistence.SequenceGenerator(name = "SEQ_STORE", allocationSize = 1, sequenceName = "t_contact_id_seq")
 public class Contact extends BaseEntity {
 
     private String name;

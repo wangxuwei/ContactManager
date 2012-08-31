@@ -51,6 +51,7 @@
 					});
 				});
 			});
+			brite.dao.invoke("getAllGroupsWithSelect","Contact");
 		}
 
 		// --------- /Component Interface Implementation ---------- //

@@ -5,7 +5,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "t_contact")
-public class Contact extends BaseEntity {
+public class Contact extends BaseTimeStampedEntity {
 
     private String name;
     private String address;

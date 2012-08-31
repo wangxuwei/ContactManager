@@ -5,7 +5,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "t_group")
-public class Group extends BaseEntity {
+public class Group extends BaseTimeStampedEntity {
 
     private String name;
 

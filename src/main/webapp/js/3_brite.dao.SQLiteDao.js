@@ -9,25 +9,12 @@
 	 * 			new SQLiteDao("tableName", "id", [{column:'name',dtype:'TEXT'},{column:'email',dtype:'TEXT'},{column:'sex',dtype:'INTEGER'}]);
 	 * 
 	 */
-	function SQLiteDao(tableName, identity, tableDefine){
-		this.init(tableName, identity, tableDefine);
+	function SQLiteDao(tableName, identity){
+		this.init(tableName, identity);
 	}
 
-	SQLiteDao.prototype.init = function(tableName, identity, tableDefine){
-		app.SQLiteDB.transaction(function(transaction){
-			var createSql = "CREATE TABLE IF NOT EXISTS " + tableName + " ("+ identity + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT";
-			var dlen = tableDefine.length;
-			for(var i = 0; i < dlen; i++){
-				var field = tableDefine[i];
-				createSql += "," + field.column + " " + field.dtype;
-			}
-			createSql += ");";
-			transaction.executeSql(createSql,null,function(a,b){
-			},function(a,b){
-				console.log(b);
-			});
-		});
-		this._identity = identity;
+	SQLiteDao.prototype.init = function(tableName, identity){
+		this._identity = identity || 'id';
 		this._tableName = tableName;
 		return this;
 	}

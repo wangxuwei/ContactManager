@@ -19,33 +19,67 @@ var app = app || {};
 				databaseOptions.maxSize
 		);		
 		
-		var groupTable = [
-			{column:'name',dtype:'TEXT'},
-			{column:'createdBy_id',dtype:'INTEGER'},
-			{column:'createdDate',dtype:'TEXT'},
-			{column:'updatedBy_id',dtype:'INTEGER'},
-			{column:'updatedDate',dtype:'TEXT'}
+		var tables = [
+			{
+				name:"t_group",
+				fields:[
+					{column:'name',dtype:'TEXT'},
+					{column:'createdBy_id',dtype:'INTEGER'},
+					{column:'createdDate',dtype:'TEXT'},
+					{column:'updatedBy_id',dtype:'INTEGER'},
+					{column:'updatedDate',dtype:'TEXT'}
+				]
+			},
+			{
+				name:"t_contact",
+				fields:[
+					{column:'name',dtype:'TEXT'},
+					{column:'address',dtype:'TEXT'},
+					{column:'email',dtype:'TEXT'},
+					{column:'createdBy_id',dtype:'INTEGER'},
+					{column:'createdDate',dtype:'TEXT'},
+					{column:'updatedBy_id',dtype:'INTEGER'},
+					{column:'updatedDate',dtype:'TEXT'}
+				]
+			},
+			{
+				name:"t_group_contact",
+				fields:[
+					{column:'contact_id',dtype:'INTEGER'},
+					{column:'group_id',dtype:'INTEGER'}
+				]
+			}
 		];
 		
-		var contactTable = [
-			{column:'name',dtype:'TEXT'},
-			{column:'address',dtype:'TEXT'},
-			{column:'email',dtype:'TEXT'},
-			{column:'createdBy_id',dtype:'INTEGER'},
-			{column:'createdDate',dtype:'TEXT'},
-			{column:'updatedBy_id',dtype:'INTEGER'},
-			{column:'updatedDate',dtype:'TEXT'}
-		];
+		//create tables
+		app.util.serialResolve(tables,function(table){
+			var dfd = $.Deferred();
+			var tableName = table.name;
+			var tableDefine = table.fields;
+			var identity = table.identity || 'id';
+			app.SQLiteDB.transaction(function(transaction){
+				var createSql = "CREATE TABLE IF NOT EXISTS " + tableName + " ("+ identity + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT";
+				var dlen = tableDefine.length;
+				for(var i = 0; i < dlen; i++){
+					var field = tableDefine[i];
+					createSql += "," + field.column + " " + field.dtype;
+				}
+				createSql += ");";
+				transaction.executeSql(createSql,null,function(a,b){
+					dfd.resolve();
+				},function(a,b){
+					console.log(b);
+				});
+			});
+			
+			return dfd.promise();
+		});
 		
-		var groupContactTable = [
-			{column:'contact_id',dtype:'INTEGER'},
-			{column:'group_id',dtype:'INTEGER'}
-		];
 		
 		//register SQLiteDao
-		brite.registerDao("Group",new brite.dao.SQLiteDao("t_group","id",groupTable));
-		brite.registerDao("Contact",new brite.dao.SQLiteDao("t_contact","id",contactTable));
-		brite.registerDao("GroupContact",new brite.dao.SQLiteDao("t_group_contact","id",groupContactTable));
+		brite.registerDao("Group",new brite.dao.SQLiteDao("t_group"));
+		brite.registerDao("Contact",new brite.dao.SQLiteDao("t_contact"));
+		brite.registerDao("GroupContact",new brite.dao.SQLiteDao("t_group_contact"));
 	}else{
 		//register RemoteDao
 		brite.registerDao("Group",new brite.dao.RemoteDao("Group"));
@@ -53,5 +87,5 @@ var app = app || {};
 		brite.registerDao("GroupContact",new brite.dao.RemoteDao("GroupContact"));
 	}
 
-})();
+})(jQuery);
 

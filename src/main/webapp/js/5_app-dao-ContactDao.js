@@ -7,9 +7,56 @@
 	brite.inherit(RemoteContactDao,brite.dao.RemoteDao);
 	
 	RemoteContactDao.prototype.getAllGroupsWithSelect = function(objectType,contactId){
+		var data = {};
+		data.contactId = contactId;
+
+		return $.ajax({
+			type : "GET",
+			url : contextPath + "/getAllGroupsWithSelect.json",
+			data : data,
+			dataType : "json"
+		}).pipe(function(val) {
+			return val.result;
+		});
 	}
 	
 	RemoteContactDao.prototype.updateGroups = function(objectType,contactId,selectGroupIds){
+		var data = {
+			contactId : contactId
+		};
+		
+		var groupIds = "";
+		for(var i = 0; i < selectGroupIds.length; i++){
+			groupIds += selectGroupIds[i];
+			if(i<selectGroupIds.length-1){
+				groupIds += ",";
+			}
+		}
+		data.selectGroupIds = groupIds;
+		var dfd = $.ajax({
+			type : "POST",
+			url : "updateGroups.do",
+			data : data,
+			dataType : "json"
+		}).pipe(function(val) {
+			return val;
+		});
+
+	}
+	
+	RemoteContactDao.prototype.getContactsByGroup = function(objectType,groupId){
+		var data = {};
+		data.groupId = groupId;
+
+		return $.ajax({
+			type : "GET",
+			url : contextPath + "/getContactsByGroup.json",
+			data : data,
+			dataType : "json"
+		}).pipe(function(val) {
+			return val.result;
+		});
+		
 	}
 	
 	//-------- /Remote dao ---------//

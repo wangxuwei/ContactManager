@@ -109,6 +109,7 @@
 		// --------- Component Registration --------- //
 		brite.registerComponent("ContactCreate", {
 			loadTmpl : true,
+			transition:"dialogSlide",
 			parent:"#bodyPage"
 		}, function() {
 			return new ContactCreate();

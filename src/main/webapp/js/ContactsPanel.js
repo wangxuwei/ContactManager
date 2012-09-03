@@ -44,7 +44,7 @@
 			});
 			
 			$e.on("btap",".btnBack",function(){
-				brite.display("GroupsPanel");
+				brite.display("GroupsPanel",{},{transition:"slideLeft"});
 			});
 			
 			$e.on("btap",".btnCreateContact",function(){
@@ -126,6 +126,7 @@
 		brite.registerComponent("ContactsPanel", {
 			loadTmpl : true,
 			emptyParent : true,
+			transition : "slideRight",
 			parent:".MainScreen-content"
 		}, function() {
 			return new ContactsPanel();

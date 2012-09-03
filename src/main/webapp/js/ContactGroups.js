@@ -93,6 +93,7 @@
 		// --------- Component Registration --------- //
 		brite.registerComponent("ContactGroups", {
 			loadTmpl : true,
+			transition:"dialogSlide",
 			parent:"#bodyPage"
 		}, function() {
 			return new ContactGroups();

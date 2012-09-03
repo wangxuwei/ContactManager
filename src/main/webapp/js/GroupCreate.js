@@ -105,6 +105,7 @@
 		// --------- Component Registration --------- //
 		brite.registerComponent("GroupCreate", {
 			loadTmpl : true,
+			transition:"dialogSlide",
 			parent:"#bodyPage"
 		}, function() {
 			return new GroupCreate();

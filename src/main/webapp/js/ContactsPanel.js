@@ -48,7 +48,7 @@
 			});
 			
 			$e.on("btap",".btnCreateContact",function(){
-				brite.display("ContactCreate").done(function(contactCreate){
+				brite.display("ContactCreate",{groupId:c.groupId}).done(function(contactCreate){
 					contactCreate.onUpdate(function(){
 						$e.trigger("MainScreen_CONTACTSPANEL_REFRESH");
 					});

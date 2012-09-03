@@ -29,6 +29,7 @@
 			var dfd = $.Deferred();
 			var createDfd = $.Deferred();
 			data = data || {};
+			c.groupId = data.groupId;
 			if(data.id){
 				brite.dao.get("Contact", data.id).done(function(contact) {
 					dfd.resolve(contact);
@@ -98,8 +99,16 @@
 					c.close(true);
 				});
 			}else{
-				brite.dao.create("Contact",data).done(function(){
-					c.close(true);
+				brite.dao.create("Contact",data).done(function(obj){
+					if(c.groupId){
+						var nGroupsIds = [];
+						nGroupsIds.push(c.groupId);
+						brite.dao.invoke("updateGroups","Contact",obj.id,nGroupsIds).done(function(){
+							c.close(true);
+						});
+					}else{
+						c.close(true);
+					}
 				});
 			}
 			

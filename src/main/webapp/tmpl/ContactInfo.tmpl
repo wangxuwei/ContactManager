@@ -1,0 +1,41 @@
+<script id="tmpl-ContactInfo" type="text/html">
+	<div class="ContactInfo panel">
+		<div class="ContactInfo-header panel-header">
+			<span class="title">{{:name}}</span>
+			<div class="btn btnBack btnLeftHeader">Back</div>
+		</div>
+		<div class="ContactInfo-content panel-body">
+			<div class="form-horizontal">
+				<div class="control-group">
+					<div class="control-label">Contact name:</div>
+					<div class="controls">
+						<input type='text' name="contactName" value="{{:name}}" />
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">Contact Addreass:</div>
+					<div class="controls">
+						<input type='text' name="contactAddress" value="{{:address}}" />
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">Contact email:</div>
+					<div class="controls">
+						<input type='text' name="contactEmail" value="{{:email}}" />
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">Groups:</div>
+					<div class="controls">
+						{{for groups}}
+							<input type='checkbox' name="group" value="{{:id}}" {{if checked}}checked{{/if}} /> {{:name}} <br/>
+						{{/for}}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="ContactInfo-footer panel-footer">
+			<div class="btn btn-primary btnUpdate">update</div>
+		</div>
+	</div>  
+</script>

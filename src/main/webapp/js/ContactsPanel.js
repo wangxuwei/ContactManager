@@ -27,9 +27,18 @@
 		ContactsPanel.prototype.create = function(data, config) {
 			data = data || {};
 			this.groupId = data.groupId || "";
-			var html = $("#tmpl-ContactsPanel").render(data);
-			var $e = $(html);
-			return $e;
+			var createDfd = $.Deferred();
+			brite.dao.get("Group",data.groupId).done(function(group){
+				var groupName = "All"
+				if(group){
+					groupName = group.name;
+				}
+				data.groupName = groupName;
+				var html = $("#tmpl-ContactsPanel").render(data);
+				var $e = $(html);
+				createDfd.resolve($e);
+			});
+			return createDfd.promise();
 		}
 
 
@@ -55,7 +64,8 @@
 				});
 			});
 			
-			$e.on("btap",".btnEdit",function(){
+			$e.on("btap",".btnEdit",function(e){
+				e.stopPropagation();
 				var obj = $(this).bObjRef();
 				brite.display("ContactCreate",{id:obj.id}).done(function(contactCreate){
 					contactCreate.onUpdate(function(){
@@ -64,7 +74,8 @@
 				});
 			});
 			
-			$e.on("btap",".btnDelete",function(){
+			$e.on("btap",".btnDelete",function(e){
+				e.stopPropagation();
 				var obj = $(this).bObjRef();
 				var contactId = obj.id * 1;
 				var dfd = $.Deferred();
@@ -94,9 +105,15 @@
 				
 			});
 			
-			$e.on("btap",".btnSelectGroup",function(){
+			$e.on("btap",".btnSelectGroup",function(e){
+				e.stopPropagation();
 				var obj = $(this).bObjRef();
 				brite.display("ContactGroups",{id:obj.id});
+			});
+			
+			$e.on("btap",".contactItem",function(){
+				var obj = $(this).bObjRef();
+				brite.display("ContactInfo",{id:obj.id * 1,groupId:c.groupId});
 			});
 		}
 

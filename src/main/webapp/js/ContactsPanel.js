@@ -43,6 +43,18 @@
 				refresh.call(c);
 			});
 			
+			$e.on("btap",".btnBack",function(){
+				brite.display("GroupsPanel");
+			});
+			
+			$e.on("btap",".btnCreateContact",function(){
+				brite.display("ContactCreate").done(function(contactCreate){
+					contactCreate.onUpdate(function(){
+						$e.trigger("MainScreen_CONTACTSPANEL_REFRESH");
+					});
+				});
+			});
+			
 			$e.on("btap",".btnEdit",function(){
 				var obj = $(this).bObjRef();
 				brite.display("ContactCreate",{id:obj.id}).done(function(contactCreate){
@@ -114,7 +126,7 @@
 		brite.registerComponent("ContactsPanel", {
 			loadTmpl : true,
 			emptyParent : true,
-			parent:".MainScreen-content-right"
+			parent:".MainScreen-content"
 		}, function() {
 			return new ContactsPanel();
 		});

@@ -34,24 +34,7 @@
 			var $e = c.$element;
 			
 			brite.display("GroupsPanel");
-			brite.display("ContactsPanel");
 			
-			$e.on("btap",".btnCreateGroup",function(){
-				brite.display("GroupCreate").done(function(groupCreate){
-					groupCreate.onUpdate(function(){
-						$e.trigger("MainScreen_GROUPSPANEL_REFRESH");
-					});
-				});
-			});
-			
-			$e.on("btap",".btnCreateContact",function(){
-				brite.display("ContactCreate").done(function(contactCreate){
-					contactCreate.onUpdate(function(){
-						$e.trigger("MainScreen_CONTACTSPANEL_REFRESH");
-					});
-				});
-			});
-			brite.dao.invoke("getAllGroupsWithSelect","Contact");
 		}
 
 		// --------- /Component Interface Implementation ---------- //

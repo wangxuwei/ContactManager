@@ -1,8 +1,8 @@
-html{
+html,body{
   height: 100%;
-}
-body{
-  height: 100%;
+  width:100%;
+  margin:0;
+  padding:0;
 }
 * { 
   -moz-box-sizing: border-box; 
@@ -62,26 +62,6 @@ body{
 }
 /*--------- /Twitter/Boostrap custom mixins ---------*/
 
-/*--------- Twitter/Boostrap btn-group.vertical ---------*/
-.btn-group.vertical{
-	width:150px;
-}
-.btn-group.vertical .btn{
-  float:none;
-  display:block;
-  border-bottom:0px;
-}
-.btn-group.vertical .btn:first-child{
-  .border-radius(0px);
-  .top-border-radius(4px);
-  margin-left:-1px;
-}
-.btn-group.vertical .btn:last-child{
-  .border-radius(0px);
-  .bottom-border-radius(4px);
-  border-bottom:1px solid #B3B3B3;
-}
-/*--------- /Twitter/Boostrap btn-group.vertical ---------*/
 .panel{
 	height:100%;
 }
@@ -89,6 +69,21 @@ body{
 	border-bottom: 1px solid #eee;
 	height:40px;
 	background: #A2A2A2;
+}
+.panel-header .title{
+	text-align:center;
+	.fitparent;
+	font-size:24px;
+	font-weight:bold;
+	line-height:40px;
+}
+.panel-header .btnLeftHeader{
+	position:absolute;
+	left:5px;top:3px;
+}
+.panel-header .btnRightHeader{
+	position:absolute;
+	right:5px;top:3px;
 }
 
 .panel-content{

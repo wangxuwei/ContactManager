@@ -41,7 +41,16 @@
 				refresh.call(c);
 			});
 			
-			$e.on("btap",".btnEdit",function(){
+			$e.on("btap",".btnCreateGroup",function(){
+				brite.display("GroupCreate").done(function(groupCreate){
+					groupCreate.onUpdate(function(){
+						$e.trigger("MainScreen_GROUPSPANEL_REFRESH");
+					});
+				});
+			});
+			
+			$e.on("btap",".btnEdit",function(e){
+				e.stopPropagation();
 				var obj = $(this).bObjRef();
 				brite.display("GroupCreate",{id:obj.id}).done(function(groupCreate){
 					groupCreate.onUpdate(function(){
@@ -50,7 +59,8 @@
 				});
 			});
 			
-			$e.on("btap",".btnDelete",function(){
+			$e.on("btap",".btnDelete",function(e){
+				e.stopPropagation();
 				var obj = $(this).bObjRef();
 				var groupId = obj.id * 1;
 				var dfd = $.Deferred();
@@ -78,7 +88,7 @@
 				});
 			});
 			
-			$e.on("btap",".groupItem .text",function(){
+			$e.on("btap",".groupItem",function(){
 				var obj = $(this).bObjRef();
 				brite.display("ContactsPanel",{groupId:obj.id * 1});
 			});
@@ -111,7 +121,7 @@
 		brite.registerComponent("GroupsPanel", {
 			loadTmpl : true,
 			emptyParent : true,
-			parent:".MainScreen-content-left"
+			parent:".MainScreen-content"
 		}, function() {
 			return new GroupsPanel();
 		});

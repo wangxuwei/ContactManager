@@ -61,6 +61,7 @@
 			
 			$e.on("btap",".btnDelete",function(e){
 				e.stopPropagation();
+				var $btn = $(this);
 				var obj = $(this).bObjRef();
 				var groupId = obj.id * 1;
 				var dfd = $.Deferred();
@@ -82,8 +83,11 @@
 				});
 				
 				dfd.done(function(){
-					brite.dao.remove("Group",groupId).done(function(){
-						refresh.call(c);
+					var $item = $btn.closest(".groupItem");
+					$item.fadeOut(function(){
+						brite.dao.remove("Group",groupId).done(function(){
+							refresh.call(c);
+						});
 					});
 				});
 			});

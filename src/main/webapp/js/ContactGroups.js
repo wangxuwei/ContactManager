@@ -34,6 +34,7 @@
 			brite.dao.invoke("getAllGroupsWithSelect","Contact", data.id).done(function(groups){
 				var html = $("#tmpl-ContactGroups").render({groups:groups});
 				var $e = $(html);
+				c.$screen = $("<div class='notTransparentScreen'></div>").appendTo("#bodyPage");
 				dfd.resolve($e);
 			});
 
@@ -62,6 +63,7 @@
 			var $e = c.$element;
 			
 			$e.bRemove();
+			c.$screen.remove();
 			if(update && c._updateCallback && $.isFunction(c._updateCallback)){
 				c._updateCallback();
 			}

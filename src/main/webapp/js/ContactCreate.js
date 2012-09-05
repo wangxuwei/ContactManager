@@ -41,6 +41,7 @@
 				c.contactId = contact.id;
 				var html = $("#tmpl-ContactCreate").render(contact);
 				var $e = $(html);
+				c.$screen = $("<div class='notTransparentScreen'></div>").appendTo("#bodyPage");
 				createDfd.resolve($e);
 			});
 
@@ -69,6 +70,7 @@
 			var $e = c.$element;
 			
 			$e.bRemove();
+			c.$screen.remove();
 			if(update && c._updateCallback && $.isFunction(c._updateCallback)){
 				c._updateCallback();
 			}

@@ -2,11 +2,11 @@
 	<div class="GroupsPanel panel">
 		<div class="GroupsPanel-header panel-header">
 			<span class="title">Groups</span>
-			<div class="btn btnCreateGroup btnRightHeader">Create Group</div>
+			<div class="btn btnCreateGroup btnRightHeader"><i class="icon-plus"></i><span> Create Group</span></div>
 		</div>
 		<div class="GroupsPanel-content panel-content">
 			<div class="groupItem" data-obj_type="group" data-obj_id="">
-				<span class="text">ALL</span>
+				<span class="text"><i class="icon-tasks"></i>  ALL</span>
 			</div>
 			<ul class="groupsList">
 			</ul>
@@ -15,9 +15,9 @@
 </script>
 <script id="tmpl-GroupsPanel-groupItem" type="text/html">
 	<li class="groupItem" data-obj_type="group" data-obj_id="{{:id}}">
-		<span class="text">{{:name}}</span>
+		<span class="text"><i class="icon-tasks"></i>  {{:name}}</span>
 		<div class="next">&gt;</div>
-		<div class="btn btnDelete">&times;</div>
-		<div class="btn btnEdit">Edit</div>
+		<div class="btn btnDelete"><i class="icon-remove"></i></div>
+		<div class="btn btnEdit"><i class="icon-pencil"></i></div>
 	</li>
 </script>

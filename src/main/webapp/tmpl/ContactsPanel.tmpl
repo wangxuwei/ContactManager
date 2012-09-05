@@ -2,8 +2,8 @@
 	<div class="ContactsPanel panel">
 		<div class="ContactsPanel-header panel-header">
 			<span class="title">{{:groupName}} Contacts </span>
-			<div class="btn btnCreateContact btnRightHeader">Create Contact</div>
-			<div class="btn btnBack btnLeftHeader">Back</div>
+			<div class="btn btnCreateContact btnRightHeader"><i class="icon-plus"></i> Create Contact</div>
+			<div class="btn btnBack btnLeftHeader"><i class="icon-circle-arrow-left"></i> Back</div>
 		</div>
 		<div class="ContactsPanel-content panel-content">
 			<ul class="contactsList">
@@ -13,10 +13,10 @@
 </script>
 <script id="tmpl-ContactsPanel-contactItem" type="text/html">
 	<li class="contactItem" data-obj_type="contact" data-obj_id="{{:id}}">
-		<span class="text">{{:name}}</span>
+		<span class="text"><i class="icon-user"></i>  {{:name}}</span>
 		<div class="next">&gt;</div>
-		<div class="btn btnDelete">&times;</div>
-		<div class="btn btnEdit">Edit</div>
-		<div class="btn btnSelectGroup">Select Groups</div>
+		<div class="btn btnDelete"><i class="icon-remove"></i></div>
+		<div class="btn btnEdit"><i class="icon-pencil"></i></div>
+		<div class="btn btnSelectGroup"><i class="icon-list"></i> Select Groups</div>
 	</li>
 </script>

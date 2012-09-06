@@ -45,38 +45,37 @@ var app = app || {};
 			start = opposite ? -1 * width : width;
 		}
 		
-		if(vertical){
-			if(newExist){
-				$new.css(app.cssPrefix()+"transform", "translate(0px, " + (-1 * start) + "px)");
+		if(newExist){
+			if(vertical){
+				$new.bTransition({transform:"translate(0px, " + (-1 * start) + "px)"});
+			}else{
+				$new.bTransition({transform:"translate(" + (-1 * start) + "px,0px)"});
 			}
-		}else{
-			if(newExist){
-				$new.css(app.cssPrefix()+"transform", "translate(" + (-1 * start) + "px,0px)");
-			}
+		}
+		if(curExist){
+			$current.bTransition({transform:"translate(0px, 0px)"});
 		}
 		
 		setTimeout(function(){
 			if(curExist){
-				$current.css(app.cssPrefix()+"transform", "translate(0px, 0px)");
 				$current.addClass("transitioning");
 				if(vertical){
-					$current.css(app.cssPrefix()+"transform", "translate(0px, " + start + "px)");
+					$current.bTransition({transform:"translate(0px, " + start + "px)"});
 				}else{
-					$current.css(app.cssPrefix()+"transform", "translate(" + start + "px,0px)");
+					$current.bTransition({transform:"translate(" + start + "px,0px)"});
 				}
-				$current.one(app.getTransitionEnd(), function() {
-					$current.removeClass("transitioning");
+				$current.one("btransitionend", function() {
 					$current.bRemove();
 				}); 
 			}
 			
 			if(newExist){
 				$new.addClass("transitioning");
-				$new.css(app.cssPrefix()+"transform", "translate(0px,0px)");
-				$new.one(app.getTransitionEnd(), function() {
+				$new.bTransition({transform:"translate(0px,0px)"});
+				$new.one("btransitionend", function() {
 					$new.data("direction",direction);
 					$new.removeClass("transitioning");
-					$new.css(app.cssPrefix()+"transform", "");
+					$new.bTransition({transform:""});
 				}); 
 			}
 		},5);

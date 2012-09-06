@@ -48,7 +48,7 @@
 			var mainScreen = $e.bComponent("MainScreen");
 			
 			refresh.call(c);
-			mainScreen.$element.on("MainScreen_CONTACTSPANEL_REFRESH",function(){
+			$(document).on("DO_CONTACTSPANEL_REFRESH",function(){
 				refresh.call(c);
 			});
 			
@@ -59,7 +59,7 @@
 			$e.on("btap",".btnCreateContact",function(){
 				brite.display("ContactCreate",{groupId:c.groupId}).done(function(contactCreate){
 					contactCreate.onUpdate(function(){
-						$e.trigger("MainScreen_CONTACTSPANEL_REFRESH");
+						$(document).trigger("DO_CONTACTSPANEL_REFRESH");
 					});
 				});
 			});
@@ -121,6 +121,9 @@
 			});
 		}
 
+		ContactsPanel.prototype.destroy = function() {
+			$(document).off("."+this.id);
+		}
 		// --------- /Component Interface Implementation ---------- //
 
 		// --------- Component Public API --------- //

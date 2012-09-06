@@ -34,17 +34,16 @@
 		GroupsPanel.prototype.postDisplay = function(data, config) {
 			var c = this;
 			var $e = c.$element;
-			var mainScreen = $e.bComponent("MainScreen");
 			
 			refresh.call(c);
-			mainScreen.$element.on("MainScreen_GROUPSPANEL_REFRESH",function(){
+			$(document).on("DO_GROUPSPANEL_REFRESH."+c.id,function(){
 				refresh.call(c);
 			});
 			
 			$e.on("btap",".btnCreateGroup",function(){
 				brite.display("GroupCreate").done(function(groupCreate){
 					groupCreate.onUpdate(function(){
-						$e.trigger("MainScreen_GROUPSPANEL_REFRESH");
+						$(document).trigger("DO_GROUPSPANEL_REFRESH");
 					});
 				});
 			});
@@ -97,7 +96,10 @@
 				brite.display("ContactsPanel",{groupId:obj.id * 1});
 			});
 		}
-
+		
+		GroupsPanel.prototype.destroy = function() {
+			$(document).off("."+this.id);
+		}
 		// --------- /Component Interface Implementation ---------- //
 
 		// --------- Component Public API --------- //

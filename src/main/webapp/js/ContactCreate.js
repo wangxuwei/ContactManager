@@ -118,7 +118,7 @@
 		// --------- /Component Private Methods --------- //
 
 		// --------- Component Registration --------- //
-		brite.registerComponent("ContactCreate", {
+		brite.registerView("ContactCreate", {
 			loadTmpl : true,
 			transition:"dialogSlide",
 			parent:"#bodyPage"

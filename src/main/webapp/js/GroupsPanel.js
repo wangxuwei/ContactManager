@@ -122,7 +122,7 @@
 		// --------- /Component Private Methods --------- //
 
 		// --------- Component Registration --------- //
-		brite.registerComponent("GroupsPanel", {
+		brite.registerView("GroupsPanel", {
 			loadTmpl : true,
 			emptyParent : true,
 			parent:".MainScreen-content"

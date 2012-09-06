@@ -54,7 +54,7 @@
 		// --------- /Component Private Methods --------- //
 
 		// --------- Component Registration --------- //
-		brite.registerComponent("MainScreen", {loadTmpl:true,parent:"#bodyPage"},
+		brite.registerView("MainScreen", {loadTmpl:true,parent:"#bodyPage"},
 		function() {
 			return new MainScreen();
 		});

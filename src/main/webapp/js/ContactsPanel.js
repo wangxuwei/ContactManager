@@ -144,7 +144,7 @@
 		// --------- /Component Private Methods --------- //
 
 		// --------- Component Registration --------- //
-		brite.registerComponent("ContactsPanel", {
+		brite.registerView("ContactsPanel", {
 			loadTmpl : true,
 			emptyParent : true,
 			transition : "slideRight",

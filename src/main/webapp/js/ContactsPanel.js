@@ -48,14 +48,18 @@
 			var mainScreen = $e.bComponent("MainScreen");
 			
 			refresh.call(c);
+			
+			//bind event with refresh contacts
 			$(document).on("DO_CONTACTSPANEL_REFRESH",function(){
 				refresh.call(c);
 			});
 			
+			//show group panel view
 			$e.on("btap",".btnBack",function(){
 				brite.display("GroupsPanel",{},{transition:"slideLeft"});
 			});
 			
+			//create contact when user click
 			$e.on("btap",".btnCreateContact",function(){
 				brite.display("ContactCreate",{groupId:c.groupId}).done(function(contactCreate){
 					contactCreate.onUpdate(function(){
@@ -64,6 +68,7 @@
 				});
 			});
 			
+			//show contact dialog to create or update
 			$e.on("btap",".btnEdit",function(e){
 				e.stopPropagation();
 				var obj = $(this).bObjRef();
@@ -74,6 +79,7 @@
 				});
 			});
 			
+			//delete contact when click delete button
 			$e.on("btap",".btnDelete",function(e){
 				e.stopPropagation();
 				var $btn = $(this);
@@ -81,6 +87,8 @@
 				var contactId = obj.id * 1;
 				var dfd = $.Deferred();
 				brite.dao.list("GroupContact",{match:{contact_id:contactId}}).done(function(contactGroups){
+					
+					//first delete relations
 					if(contactGroups.length > 0){
 						app.util.serialResolve(contactGroups,function(contactGroup){
 							var innerDfd = $.Deferred();
@@ -98,6 +106,7 @@
 					
 				});
 				
+				// then delete group
 				dfd.done(function(){
 					var $item = $btn.closest(".contactItem");
 					$item.fadeOut(function(){
@@ -109,12 +118,14 @@
 				
 			});
 			
+			// show contact groups dialog
 			$e.on("btap",".btnSelectGroup",function(e){
 				e.stopPropagation();
 				var obj = $(this).bObjRef();
 				brite.display("ContactGroups",{id:obj.id});
 			});
 			
+			// show contact info panel
 			$e.on("btap",".contactItem",function(){
 				var obj = $(this).bObjRef();
 				brite.display("ContactInfo",{id:obj.id * 1,groupId:c.groupId});

@@ -39,6 +39,7 @@
 			}
 			dfd.done(function(contact){
 				c.contactId = contact.id;
+				//get all groups with whether selected or not
 				brite.dao.invoke("getAllGroupsWithSelect","Contact", data.id).done(function(groups){
 					contact.groups = groups;
 					var html = $("#tmpl-ContactInfo").render(contact);
@@ -54,11 +55,12 @@
 			var c = this;
 			var $e = c.$element;
 			
+			// show group panel view
 			$e.on("btap",".btnBack",function(){
 				brite.display("GroupsPanel",{groupId:c.groupId},{transition:"slideLeft"});
 			});
 			
-			
+			// save contact info when user click
 			$e.on("btap",".btnUpdate",function(){
 				saveContact.call(c);
 			});
@@ -83,6 +85,8 @@
 				email : email
 			};
 			var dfd = $.Deferred();
+			
+			// save contact info
 			if(c.contactId){
 				brite.dao.update("Contact",c.contactId,data).done(function(){
 					var nGroupsIds = [];
@@ -90,11 +94,13 @@
 						nGroupsIds.push($(this).val() * 1);
 					});
 					
+					// save contact groups
 					brite.dao.invoke("updateGroups","Contact",c.contactId,nGroupsIds).done(function(){
 						dfd.resolve();
 					});
 				});
 				
+				//show contact list
 				dfd.done(function(){
 					brite.display("ContactsPanel",{groupId:c.groupId},{transition:"slideLeft"});
 				});

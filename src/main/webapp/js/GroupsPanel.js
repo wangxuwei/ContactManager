@@ -36,10 +36,13 @@
 			var $e = c.$element;
 			
 			refresh.call(c);
+			
+			//bind event with refresh groups
 			$(document).on("DO_GROUPSPANEL_REFRESH."+c.id,function(){
 				refresh.call(c);
 			});
 			
+			//create group when user click
 			$e.on("btap",".btnCreateGroup",function(){
 				brite.display("GroupCreate").done(function(groupCreate){
 					groupCreate.onUpdate(function(){
@@ -48,6 +51,7 @@
 				});
 			});
 			
+			//show group dialog to create or update
 			$e.on("btap",".btnEdit",function(e){
 				e.stopPropagation();
 				var obj = $(this).bObjRef();
@@ -58,6 +62,7 @@
 				});
 			});
 			
+			//delete group when click delete button
 			$e.on("btap",".btnDelete",function(e){
 				e.stopPropagation();
 				var $btn = $(this);
@@ -65,6 +70,8 @@
 				var groupId = obj.id * 1;
 				var dfd = $.Deferred();
 				brite.dao.list("GroupContact",{match:{group_id:groupId}}).done(function(contactGroups){
+					
+					//first delete relations
 					if(contactGroups.length > 0){
 						app.util.serialResolve(contactGroups,function(contactGroup){
 							var innerDfd = $.Deferred();
@@ -81,6 +88,7 @@
 					}
 				});
 				
+				// then delete group
 				dfd.done(function(){
 					var $item = $btn.closest(".groupItem");
 					$item.fadeOut(function(){
@@ -91,6 +99,7 @@
 				});
 			});
 			
+			// show contact by group
 			$e.on("btap",".groupItem",function(){
 				var obj = $(this).bObjRef();
 				brite.display("ContactsPanel",{groupId:obj.id * 1});

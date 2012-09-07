@@ -31,6 +31,8 @@
 			if(data.id){
 				c.contactId = data.id;
 			}
+			
+			//get all groups with whether selected or not
 			brite.dao.invoke("getAllGroupsWithSelect","Contact", data.id).done(function(groups){
 				var html = $("#tmpl-ContactGroups").render({groups:groups});
 				var $e = $(html);
@@ -45,11 +47,12 @@
 			var c = this;
 			var $e = c.$element;
 			
-			
+			//close dialog when user click 
 			$e.on("btap",".btnClose",function(){
 				c.close();
 			});
 			
+			//save contact groups when click
 			$e.on("btap",".btnUpdate",function(){
 				saveGroups.call(c);
 			});
@@ -85,6 +88,7 @@
 				nGroupsIds.push($(this).val() * 1);
 			});
 			
+			//update contact group relation with new group ids
 			brite.dao.invoke("updateGroups","Contact",c.contactId,nGroupsIds).done(function(){
 				c.close(true);
 			});

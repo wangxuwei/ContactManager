@@ -91,6 +91,7 @@
 				name : name,
 			};
 			
+			// if exist group id, do update, else do create
 			if(c.groupId){
 				brite.dao.update("Group",c.groupId,data).done(function(){
 					c.close(true);

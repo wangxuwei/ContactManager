@@ -41,6 +41,7 @@
 				c.contactId = contact.id;
 				var html = $("#tmpl-ContactCreate").render(contact);
 				var $e = $(html);
+				//show a screen to prevent use click other places
 				c.$screen = $("<div class='notTransparentScreen'></div>").appendTo("#bodyPage");
 				createDfd.resolve($e);
 			});
@@ -52,11 +53,12 @@
 			var c = this;
 			var $e = c.$element;
 			
-			
+			//close dialog when user click 
 			$e.on("btap",".btnClose",function(){
 				c.close();
 			});
 			
+			//save contact when click
 			$e.on("btap",".btnCreate",function(){
 				saveContact.call(c);
 			});
@@ -96,12 +98,14 @@
 				email : email
 			};
 			
+			// if contact id exist do update,else do create
 			if(c.contactId){
 				brite.dao.update("Contact",c.contactId,data).done(function(){
 					c.close(true);
 				});
 			}else{
 				brite.dao.create("Contact",data).done(function(obj){
+					// if group id exist save group and contact relation
 					if(c.groupId){
 						var nGroupsIds = [];
 						nGroupsIds.push(c.groupId);

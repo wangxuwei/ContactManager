@@ -7,12 +7,13 @@ var app = app || {};
 	}
 
 	// ------ DAO Interface Implementation ------ //
-	RemoteDao.prototype.getIdName = function(objectType) {
+	RemoteDao.prototype.getIdName = function() {
 		return "id";
 	}
 
 
-	RemoteDao.prototype.get = function(objectType, id) {
+	RemoteDao.prototype.get = function(id) {
+		var objectType = this._entityType;
 		var data = {
 			objType : objectType
 		};
@@ -32,8 +33,7 @@ var app = app || {};
 	}
 
 	/**
-	 * DAO Interface: Return an array of values or a deferred object (depending of DAO impl) for this objectType and options
-	 * @param {Object} objectType
+	 * DAO Interface: Return an array of values or a deferred object (depending of DAO impl) for  options
 	 * @param {Object} opts
 	 *           opts.pageIndex       {Number} Index of the page, starting at 0.
 	 *           opts.pageSize        {Number} Size of the page
@@ -43,7 +43,8 @@ var app = app || {};
 	 *           opts withResultCount {Boolean} if this is true, resultSet with count will be returned
 	 */
 	// for now, just support opts.orderBy
-	RemoteDao.prototype.list = function(objectType, opts) {
+	RemoteDao.prototype.list = function(opts) {
+		var objectType = this._entityType;
 		var data = {
 			objType : objectType
 		};
@@ -74,7 +75,8 @@ var app = app || {};
 	}
 
 	// to reuse update
-	RemoteDao.prototype.create = function(objectType, data) {
+	RemoteDao.prototype.create = function(data) {
+		var objectType = this._entityType;
 		var reqData = {
 			objType : objectType,
 			objJson : JSON.stringify(data),
@@ -97,7 +99,8 @@ var app = app || {};
 	}
 
 
-	RemoteDao.prototype.update = function(objectType, id, data) {
+	RemoteDao.prototype.update = function(id, data) {
+		var objectType = this._entityType;
 		var reqData = {
 			objType : objectType,
 			obj_id : id,
@@ -121,7 +124,8 @@ var app = app || {};
 	}
 
 
-	RemoteDao.prototype.remove = function(objectType, id) {
+	RemoteDao.prototype.remove = function(id) {
+		var objectType = this._entityType;
 		var reqData = {
 			objType : objectType
 		}
@@ -155,20 +159,20 @@ var app = app || {};
 (function($){
 	 
 	//  Constructor that allows to override the default create, update, remove
-	function CustomRemoteDao(objectType,opts){
+	function CustomRemoteDao(opts){
 		// Note: remember, do not do initialization in the constructor, but call a init if needed.
 		// See: http://www.kevlindev.com/tutorials/javascript/inheritance/inheritance10.htm
 		if (arguments.length > 0){
-			this.init(objectType,opts);
+			this.init(opts);
 		}
 	}
 	brite.inherit(CustomRemoteDao,brite.dao.RemoteDao);
 	
-	CustomRemoteDao.prototype.init = function(objectType,opts){
+	CustomRemoteDao.prototype.init = function(opts){
 		this.opts = $.extend({},defaultOpts,opts);
 	}
 	
-	CustomRemoteDao.prototype.create = function (objectType,formData){
+	CustomRemoteDao.prototype.create = function (formData){
 		var dfd = $.Deferred();
 		
 		var postDfd = app.post(this.opts.create,formData);
@@ -191,7 +195,7 @@ var app = app || {};
 		return dfd.promise();
 	}; 
 
-	CustomRemoteDao.prototype.update = function (objectType,id,formData){
+	CustomRemoteDao.prototype.update = function (id,formData){
 		var dfd = $.Deferred();
 		formData.append("id",id);
 		

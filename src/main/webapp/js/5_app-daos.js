@@ -89,7 +89,7 @@ var app = app || {};
 	
 	// add dao listeners
 	brite.dao.onDao(function(event) {
-		console.log("dao.onDao call : " + event.daoEvent.objectType + " - " + event.daoEvent.action);
+		console.log("dao.onDao call : " + event.daoEvent.entityType + " - " + event.daoEvent.action);
 	}, "namespace1"); 
 
 

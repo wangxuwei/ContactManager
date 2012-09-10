@@ -30,7 +30,7 @@
 			var createDfd = $.Deferred();
 			data = data || {};
 			if(data.id){
-				brite.dao.get("Group", data.id).done(function(group) {
+				brite.dao("Group").get(data.id).done(function(group) {
 					dfd.resolve(group);
 				});
 			}else{
@@ -93,11 +93,11 @@
 			
 			// if exist group id, do update, else do create
 			if(c.groupId){
-				brite.dao.update("Group",c.groupId,data).done(function(){
+				brite.dao("Group").update(c.groupId,data).done(function(){
 					c.close(true);
 				});
 			}else{
-				brite.dao.create("Group",data).done(function(){
+				brite.dao("Group").create(data).done(function(){
 					c.close(true);
 				});
 			}

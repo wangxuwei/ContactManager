@@ -31,7 +31,7 @@
 			data = data || {};
 			c.groupId = data.groupId;
 			if(data.id){
-				brite.dao.get("Contact", data.id).done(function(contact) {
+				brite.dao("Contact").get(data.id).done(function(contact) {
 					dfd.resolve(contact);
 				});
 			}else{
@@ -100,16 +100,16 @@
 			
 			// if contact id exist do update,else do create
 			if(c.contactId){
-				brite.dao.update("Contact",c.contactId,data).done(function(){
+				brite.dao("Contact").update(c.contactId,data).done(function(){
 					c.close(true);
 				});
 			}else{
-				brite.dao.create("Contact",data).done(function(obj){
+				brite.dao("Contact").create(data).done(function(obj){
 					// if group id exist save group and contact relation
 					if(c.groupId){
 						var nGroupsIds = [];
 						nGroupsIds.push(c.groupId);
-						brite.dao.invoke("updateGroups","Contact",obj.id,nGroupsIds).done(function(){
+						brite.dao("Contact").updateGroups(obj.id,nGroupsIds).done(function(){
 							c.close(true);
 						});
 					}else{

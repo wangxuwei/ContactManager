@@ -69,7 +69,7 @@
 				var obj = $(this).bObjRef();
 				var groupId = obj.id * 1;
 				var dfd = $.Deferred();
-				brite.dao.list("GroupContact",{match:{group_id:groupId}}).done(function(contactGroups){
+				brite.dao("GroupContact").list({match:{group_id:groupId}}).done(function(contactGroups){
 					
 					//first delete relations
 					if(contactGroups.length > 0){
@@ -92,7 +92,7 @@
 				dfd.done(function(){
 					var $item = $btn.closest(".groupItem");
 					$item.fadeOut(function(){
-						brite.dao.remove("Group",groupId).done(function(){
+						brite.dao("Group").remove(groupId).done(function(){
 							refresh.call(c);
 						});
 					});
@@ -121,7 +121,7 @@
 			var $e = c.$element;
 			var $groups = $e.find(".groupsList").empty();
 			
-			brite.dao.list("Group").done(function(groups){
+			brite.dao("Group").list().done(function(groups){
 				for(var i = 0; i < groups.length; i++){
 					var group = groups[i];
 					var html = $("#tmpl-GroupsPanel-groupItem").render(group);

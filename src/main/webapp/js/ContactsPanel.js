@@ -28,7 +28,7 @@
 			data = data || {};
 			this.groupId = data.groupId || "";
 			var createDfd = $.Deferred();
-			brite.dao.get("Group",data.groupId).done(function(group){
+			brite.dao("Group").get(data.groupId).done(function(group){
 				var groupName = "All"
 				if(group){
 					groupName = group.name;
@@ -86,13 +86,13 @@
 				var obj = $(this).bObjRef();
 				var contactId = obj.id * 1;
 				var dfd = $.Deferred();
-				brite.dao.list("GroupContact",{match:{contact_id:contactId}}).done(function(contactGroups){
+				brite.dao("Group").list({match:{contact_id:contactId}}).done(function(contactGroups){
 					
 					//first delete relations
 					if(contactGroups.length > 0){
 						app.util.serialResolve(contactGroups,function(contactGroup){
 							var innerDfd = $.Deferred();
-							brite.dao.remove("GroupContact",contactGroup.id).done(function(){
+							brite.dao("GroupContact").remove(contactGroup.id).done(function(){
 								innerDfd.resolve();
 							});
 							
@@ -110,7 +110,7 @@
 				dfd.done(function(){
 					var $item = $btn.closest(".contactItem");
 					$item.fadeOut(function(){
-						brite.dao.remove("Contact",contactId).done(function(){
+						brite.dao("Contact").remove(contactId).done(function(){
 							refresh.call(c);
 						});
 					});
@@ -146,7 +146,7 @@
 			var c = this;
 			var $e = c.$element;
 			var $contacts = $e.find(".contactsList").empty();
-			brite.dao.invoke("getContactsByGroup","Contact",c.groupId).done(function(contacts){
+			brite.dao("Contact").getContactsByGroup(c.groupId).done(function(contacts){
 				for (var i = 0; i < contacts.length; i++) {
 					var contact = contacts[i];
 					var html = $("#tmpl-ContactsPanel-contactItem").render(contact);

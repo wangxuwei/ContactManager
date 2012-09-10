@@ -22,22 +22,20 @@
 	// --------- DAO Interface Implementation --------- //
 	/**
 	 * DAO Interface: Return the property ID name
-	 * @param {string} the objectType
 	 * @return the id (this is not deferred), default value is "id"
 	 * @throws error if dao cannot be found
 	 */
-	SQLiteDao.prototype.getIdName = function(objectType){
+	SQLiteDao.prototype.getIdName = function(){
 		return this._identity || "id";
 	}
 
 	
 	/**
-	 * DAO Interface: Return a deferred object for this objectType and id.
-	 * @param {String} objectType
+	 * DAO Interface: Return a deferred object for this id.
 	 * @param {Integer} id
 	 * @return
 	 */
-	SQLiteDao.prototype.get = function(objectType, id){
+	SQLiteDao.prototype.get = function(id){
 		var dao = this;
 		var dfd = $.Deferred();
 		if(id){
@@ -58,8 +56,7 @@
 
 	
 	/**
-	 * DAO Interface: Return a deferred object for this objectType and options
-	 * @param {String} objectType
+	 * DAO Interface: Return a deferred object for this options
 	 * @param {Object} opts 
 	 *           opts.pageIndex {Number} Index of the page, starting at 0.
 	 *           opts.pageSize  {Number} Size of the page
@@ -69,7 +66,7 @@
 	 *           opts.orderBy   {String}
 	 *           opts.orderType {String} "asc" or "desc"
 	 */
-	SQLiteDao.prototype.list = function(objectType, opts){
+	SQLiteDao.prototype.list = function(opts){
 		var dao = this;
 		var resultSet;
 
@@ -133,14 +130,13 @@
 
 	
 	/**
-	 * DAO Interface: Create a new instance of the object for a give objectType and data. <br />
+	 * DAO Interface: Create a new instance of the object for a give  data. <br />
 	 *
 	 * The DAO resolve with the newly created data.
 	 *
-	 * @param {String} objectType
 	 * @param {Object} data
 	 */
-	SQLiteDao.prototype.create = function(objectType, data){
+	SQLiteDao.prototype.create = function(data){
 		var dao = this;
 		var newId;
 		var insSql = "INSERT INTO " + dao._tableName + " (";
@@ -178,11 +174,10 @@
 	 *
 	 * The DAO resolve with the updated data.
 	 *
-	 * @param {String} objectType
 	 * @param {Integer} id
 	 * @param {Object} data
 	 */
-	SQLiteDao.prototype.update = function(objectType, id, data){
+	SQLiteDao.prototype.update = function(id, data){
 		var dao = this;
 		var uptSql = "UPDATE " + dao._tableName + " set ";
 		var idx = 0;
@@ -207,15 +202,14 @@
 	}
 
 	/**
-	 * DAO Interface: remove an instance of objectType for a given type and id.
+	 * DAO Interface: remove an instance of objectType for a given  id.
 	 *
 	 * The DAO resolve with the id.
 	 * 
-	 * @param {String} objectType
 	 * @param {Integer} id
 	 * 
 	 */
-	SQLiteDao.prototype.remove = function(objectType, id){
+	SQLiteDao.prototype.remove = function(id){
 		var dao = this;
 		var dfd = $.Deferred();
 		app.SQLiteDB.transaction(function(transaction){
@@ -237,15 +231,14 @@
 	
 	// -------- Custom Interface Implementation --------- //
 	/**
-	 * DAO Interface: remove an instance of objectType for a given type and ids.
+	 * DAO Interface: remove an instance of objectType for a given ids.
 	 *
 	 * The DAO resolve with the ids.
 	 * 
-	 * @param {String} objectType
 	 * @param {Array} ids
 	 * 
 	 */
-	SQLiteDao.prototype.removeAll = function(objectType, ids){
+	SQLiteDao.prototype.removeAll = function(ids){
 		var dao = this;
 		var dfd = $.Deferred();
 		app.SQLiteDB.transaction(function(transaction){
@@ -273,14 +266,13 @@
 	}
 	
 	/**
-	 * DAO Interface: Create instances of the object for a give objectType and objs. <br />
+	 * DAO Interface: Create instances of the object for a give objs. <br />
 	 *
 	 * The DAO resolve with the newly created data.
 	 *
-	 * @param {String} objectType
 	 * @param {Array} array of data
 	 */
-	SQLiteDao.prototype.createAll = function(objectType, objs){
+	SQLiteDao.prototype.createAll = function(objs){
 		var dao = this;
 		var dfd = $.Deferred();
 		var returnArray = [];
@@ -327,14 +319,13 @@
 	
 	
 	/**
-	 * DAO Interface: Return a deferred object for this objectType and options
-	 * @param {String} objectType
+	 * DAO Interface: Return a deferred object for this  options
 	 * @param {Object} opts 
 	 *           opts.match     {Object} add condition with expr 'like' in the where clause.
 	 *           opts.equal     {Object} add condition with expr '=' in the where clause.
 	 *           opts.ids     	{Array}  add condition with expr ' id in (...)' in the where clause.
 	 */
-	SQLiteDao.prototype.getCount = function(objectType, opts){
+	SQLiteDao.prototype.getCount = function(opts){
 		var dao = this;
 		var resultSet;
 

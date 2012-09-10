@@ -6,7 +6,7 @@
 	}
 	brite.inherit(RemoteContactDao,brite.dao.RemoteDao);
 	
-	RemoteContactDao.prototype.getAllGroupsWithSelect = function(objectType,contactId){
+	RemoteContactDao.prototype.getAllGroupsWithSelect = function(contactId){
 		var data = {};
 		data.contactId = contactId;
 
@@ -20,7 +20,7 @@
 		});
 	}
 	
-	RemoteContactDao.prototype.updateGroups = function(objectType,contactId,selectGroupIds){
+	RemoteContactDao.prototype.updateGroups = function(contactId,selectGroupIds){
 		var data = {
 			contactId : contactId
 		};
@@ -44,7 +44,7 @@
 
 	}
 	
-	RemoteContactDao.prototype.getContactsByGroup = function(objectType,groupId){
+	RemoteContactDao.prototype.getContactsByGroup = function(groupId){
 		var data = {};
 		data.groupId = groupId;
 
@@ -68,10 +68,10 @@
 	}
 	brite.inherit(MockContactDao,brite.dao.SQLiteDao);
 	
-	MockContactDao.prototype.getAllGroupsWithSelect = function(objectType,contactId){
+	MockContactDao.prototype.getAllGroupsWithSelect = function(contactId){
 		var dao = this;
 		var dfd = $.Deferred();
-		$.when(brite.dao.list("Group"), brite.dao.list("GroupContact", {match : {contact_id : contactId}})).done(function(groupsList, contactGroups) {
+		$.when(brite.dao("Group").list(), brite.dao("GroupContact").list({match : {contact_id : contactId}})).done(function(groupsList, contactGroups) {
 			var groups = [];
 			for (var i = 0; i < groupsList.length; i++) {
 				var oGroup = groupsList[i];
@@ -90,11 +90,11 @@
 		return dfd.promise();
 	}
 	
-	MockContactDao.prototype.updateGroups = function(objectType,contactId,selectGroupIds){
+	MockContactDao.prototype.updateGroups = function(contactId,selectGroupIds){
 		var dao = this;
 		var dfd = $.Deferred();
 		
-		brite.dao.list("GroupContact", {
+		brite.dao("GroupContact").list({
 			match : {
 				contact_id : contactId
 			}
@@ -115,7 +115,7 @@
 				}
 
 				if (!exist) {
-					brite.dao.remove("GroupContact", obj.id).done(function() {
+					brite.dao("GroupContact").remove(obj.id).done(function() {
 						innerDfd.resolve();
 					});
 				} else {
@@ -142,7 +142,7 @@
 					}
 
 					if (!exist) {
-						brite.dao.create("GroupContact", {
+						brite.dao("GroupContact").create({
 							contact_id : contactId,
 							group_id : o
 						}).done(function() {
@@ -167,11 +167,11 @@
 		return dfd.promise();
 	}
 	
-	MockContactDao.prototype.getContactsByGroup = function(objectType,groupId){
+	MockContactDao.prototype.getContactsByGroup = function(groupId){
 		var dao = this;
 		var dfd = $.Deferred();
 		if (groupId && groupId != "") {
-			brite.dao.list("GroupContact", {
+			brite.dao("GroupContact").list({
 				match : {
 					group_id : groupId
 				}
@@ -180,7 +180,7 @@
 				app.util.serialResolve(groupContacts, function(groupContact) {
 					var innerDfd = $.Deferred();
 
-					brite.dao.get("Contact", groupContact.contact_id).done(function(contact) {
+					brite.dao("Contact").get(groupContact.contact_id).done(function(contact) {
 						contacts.push(contact);
 						innerDfd.resolve();
 					});
@@ -191,7 +191,7 @@
 				});
 			});
 		} else {
-			brite.dao.list("Contact").done(function(contacts) {
+			brite.dao("Contact").list().done(function(contacts) {
 				dfd.resolve(contacts);
 			});
 		}

@@ -31,7 +31,7 @@
 			data = data || {};
 			c.groupId = data.groupId;
 			if(data.id){
-				brite.dao.get("Contact", data.id).done(function(contact) {
+				brite.dao("Contact").get(data.id).done(function(contact) {
 					dfd.resolve(contact);
 				});
 			}else{
@@ -40,7 +40,7 @@
 			dfd.done(function(contact){
 				c.contactId = contact.id;
 				//get all groups with whether selected or not
-				brite.dao.invoke("getAllGroupsWithSelect","Contact", data.id).done(function(groups){
+				brite.dao("Contact").getAllGroupsWithSelect(data.id).done(function(groups){
 					contact.groups = groups;
 					var html = $("#tmpl-ContactInfo").render(contact);
 					var $e = $(html);
@@ -88,14 +88,14 @@
 			
 			// save contact info
 			if(c.contactId){
-				brite.dao.update("Contact",c.contactId,data).done(function(){
+				brite.dao("Contact").update(c.contactId,data).done(function(){
 					var nGroupsIds = [];
 					$e.find("input[name='group']:checked").each(function(){
 						nGroupsIds.push($(this).val() * 1);
 					});
 					
 					// save contact groups
-					brite.dao.invoke("updateGroups","Contact",c.contactId,nGroupsIds).done(function(){
+					brite.dao("Contact").updateGroups(c.contactId,nGroupsIds).done(function(){
 						dfd.resolve();
 					});
 				});

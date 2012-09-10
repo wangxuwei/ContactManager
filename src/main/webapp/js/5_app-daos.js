@@ -86,6 +86,12 @@ var app = app || {};
 		brite.registerDao("GroupContact",new brite.dao.RemoteDao("GroupContact"));
 		brite.registerDao("Contact",new app.RemoteContactDao());
 	}
+	
+	// add dao listeners
+	brite.dao.onDao(function(event) {
+		console.log("dao.onDao call : " + event.daoEvent.objectType + " - " + event.daoEvent.action);
+	}, "namespace1"); 
+
 
 })(jQuery);
 

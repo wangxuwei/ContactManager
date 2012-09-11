@@ -64,21 +64,14 @@
 		// --------- /Component Interface Implementation ---------- //
 
 		// --------- Component Public API --------- //
-		GroupCreate.prototype.close = function(update) {
+		GroupCreate.prototype.close = function() {
 			var c = this;
 			var $e = c.$element;
 			
 			$e.bRemove();
 			c.$screen.remove();
-			if(update && c._updateCallback && $.isFunction(c._updateCallback)){
-				c._updateCallback();
-			}
 		}
 		
-		GroupCreate.prototype.onUpdate = function(updateCallback) {
-			var c = this;
-			c._updateCallback = updateCallback;
-		}
 		// --------- /Component Public API --------- //
 
 		// --------- Component Private Methods --------- //
@@ -94,11 +87,11 @@
 			// if exist group id, do update, else do create
 			if(c.groupId){
 				brite.dao("Group").update(c.groupId,data).done(function(){
-					c.close(true);
+					c.close();
 				});
 			}else{
 				brite.dao("Group").create(data).done(function(){
-					c.close(true);
+					c.close();
 				});
 			}
 			

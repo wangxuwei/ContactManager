@@ -37,6 +37,11 @@
 			
 			refresh.call(c);
 			
+			// on dataChange of a group, just refresh all for now (can be easily optimized)
+			brite.dao.onDataChange("Group",function(){
+				$(document).trigger("DO_GROUPSPANEL_REFRESH");
+			},c.id);
+			
 			//bind event with refresh groups
 			$(document).on("DO_GROUPSPANEL_REFRESH."+c.id,function(){
 				refresh.call(c);
@@ -44,11 +49,7 @@
 			
 			//create group when user click
 			$e.on("btap",".btnCreateGroup",function(){
-				brite.display("GroupCreate").done(function(groupCreate){
-					groupCreate.onUpdate(function(){
-						$(document).trigger("DO_GROUPSPANEL_REFRESH");
-					});
-				});
+				brite.display("GroupCreate");
 			});
 			
 			//show group dialog to create or update
@@ -92,9 +93,7 @@
 				dfd.done(function(){
 					var $item = $btn.closest(".groupItem");
 					$item.fadeOut(function(){
-						brite.dao("Group").remove(groupId).done(function(){
-							refresh.call(c);
-						});
+						brite.dao("Group").remove(groupId);
 					});
 				});
 			});

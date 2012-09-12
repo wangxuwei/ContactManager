@@ -99,8 +99,9 @@ var app = app || {};
 	}
 
 
-	RemoteDao.prototype.update = function(id, data) {
+	RemoteDao.prototype.update = function(data) {
 		var objectType = this._entityType;
+		var id = data.id;
 		var reqData = {
 			objType : objectType,
 			obj_id : id,

@@ -2,8 +2,10 @@ var app = app || {};
 
 (function($){
 	
-	// if mock true use SQLiteDao,else use remote dao
-	app.mock = true;
-
+	// if mode is 'SQLite' use SQLiteDao,
+	// if mode is 'remote' use remote dao
+	// else use memory dao
+	app.dataMode = 'InMemory';
+	
 })();
 

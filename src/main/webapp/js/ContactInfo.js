@@ -55,9 +55,9 @@
 			var c = this;
 			var $e = c.$element;
 			
-			// show group panel view
+			// show contacts panel view
 			$e.on("btap",".btnBack",function(){
-				brite.display("GroupsPanel",{groupId:c.groupId},{transition:"slideLeft"});
+				brite.display("ContactsPanel",{groupId:c.groupId},{transition:"slideLeft"});
 			});
 			
 			// save contact info when user click
@@ -88,10 +88,11 @@
 			
 			// save contact info
 			if(c.contactId){
-				brite.dao("Contact").update(c.contactId,data).done(function(){
+				data.id = c.contactId;
+				brite.dao("Contact").update(data).done(function(){
 					var nGroupsIds = [];
 					$e.find("input[name='group']:checked").each(function(){
-						nGroupsIds.push($(this).val() * 1);
+						nGroupsIds.push($(this).val());
 					});
 					
 					// save contact groups

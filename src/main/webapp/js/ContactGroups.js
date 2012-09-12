@@ -85,7 +85,7 @@
 			
 			var nGroupsIds = [];
 			$e.find("input[name='group']:checked").each(function(){
-				nGroupsIds.push($(this).val() * 1);
+				nGroupsIds.push($(this).val());
 			});
 			
 			//update contact group relation with new group ids

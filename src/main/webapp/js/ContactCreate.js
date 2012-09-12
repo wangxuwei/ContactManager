@@ -100,7 +100,8 @@
 			
 			// if contact id exist do update,else do create
 			if(c.contactId){
-				brite.dao("Contact").update(c.contactId,data).done(function(){
+				data.id = c.contactId;
+				brite.dao("Contact").update(data).done(function(){
 					c.close(true);
 				});
 			}else{

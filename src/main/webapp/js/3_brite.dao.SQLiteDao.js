@@ -177,8 +177,9 @@
 	 * @param {Integer} id
 	 * @param {Object} data
 	 */
-	SQLiteDao.prototype.update = function(id, data){
+	SQLiteDao.prototype.update = function(data){
 		var dao = this;
+		var id = data.id;
 		var uptSql = "UPDATE " + dao._tableName + " set ";
 		var idx = 0;
 		for(var k in data){

@@ -84,7 +84,7 @@
 				e.stopPropagation();
 				var $btn = $(this);
 				var obj = $(this).bObjRef();
-				var contactId = obj.id * 1;
+				var contactId = obj.id;
 				var dfd = $.Deferred();
 				brite.dao("Group").list({match:{contact_id:contactId}}).done(function(contactGroups){
 					
@@ -128,7 +128,7 @@
 			// show contact info panel
 			$e.on("btap",".contactItem",function(){
 				var obj = $(this).bObjRef();
-				brite.display("ContactInfo",{id:obj.id * 1,groupId:c.groupId});
+				brite.display("ContactInfo",{id:obj.id,groupId:c.groupId});
 			});
 		}
 

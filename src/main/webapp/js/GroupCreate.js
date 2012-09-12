@@ -81,12 +81,13 @@
 			
 			var name = $e.find("input[name='groupName']").val();
 			var data = {
-				name : name,
+				name : name
 			};
 			
 			// if exist group id, do update, else do create
 			if(c.groupId){
-				brite.dao("Group").update(c.groupId,data).done(function(){
+				data.id = c.groupId;
+				brite.dao("Group").update(data).done(function(){
 					c.close();
 				});
 			}else{

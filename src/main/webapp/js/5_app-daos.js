@@ -4,7 +4,7 @@ var app = app || {};
 // --------- Entity Dao Registration --------- //
 (function($){
 	
-	if(app.mock){
+	if(app.dataMode == 'SQLite'){
 		var databaseOptions = {
 				fileName: "ContactDB",
 				version: "1.0",
@@ -80,11 +80,16 @@ var app = app || {};
 		brite.registerDao("Group",new brite.dao.SQLiteDao("t_group"));
 		brite.registerDao("GroupContact",new brite.dao.SQLiteDao("t_group_contact"));
 		brite.registerDao("Contact",new app.MockContactDao());
-	}else{
+	}else if(app.dataMode == 'Remote'){
 		//register RemoteDao
 		brite.registerDao("Group",new brite.dao.RemoteDao("Group"));
 		brite.registerDao("GroupContact",new brite.dao.RemoteDao("GroupContact"));
 		brite.registerDao("Contact",new app.RemoteContactDao());
+	}else{
+		//register InMemoryDao
+		brite.registerDao("Group",new brite.InMemoryDaoHandler());
+		brite.registerDao("GroupContact",new brite.InMemoryDaoHandler());
+		brite.registerDao("Contact",new app.InMemoryContactDao());
 	}
 	
 	// add dao listeners

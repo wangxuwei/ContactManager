@@ -63,35 +63,38 @@
 			$e.on("btap",".btnDelete",function(e){
 				e.stopPropagation();
 				var $btn = $(this);
-				var obj = $(this).bObjRef();
-				var groupId = obj.id;
-				var dfd = $.Deferred();
-				brite.dao("GroupContact").list({match:{group_id:groupId}}).done(function(contactGroups){
-					
-					//first delete relations
-					if(contactGroups.length > 0){
-						app.util.serialResolve(contactGroups,function(contactGroup){
-							var innerDfd = $.Deferred();
-							brite.dao.remove("GroupContact",contactGroup.id).done(function(){
-								innerDfd.resolve();
+				if(!$btn.hasClass("disable")){
+					$btn.addClass("disable");
+					var obj = $(this).bObjRef();
+					var groupId = obj.id;
+					var dfd = $.Deferred();
+					brite.dao("GroupContact").list({match:{group_id:groupId}}).done(function(contactGroups){
+						
+						//first delete relations
+						if(contactGroups.length > 0){
+							app.util.serialResolve(contactGroups,function(contactGroup){
+								var innerDfd = $.Deferred();
+								brite.dao.remove("GroupContact",contactGroup.id).done(function(){
+									innerDfd.resolve();
+								});
+								
+								return innerDfd.promise();
+							}).done(function(){
+								dfd.resolve();
 							});
-							
-							return innerDfd.promise();
-						}).done(function(){
+						}else{
 							dfd.resolve();
-						});
-					}else{
-						dfd.resolve();
-					}
-				});
-				
-				// then delete group
-				dfd.done(function(){
-					var $item = $btn.closest(".groupItem");
-					$item.fadeOut(function(){
-						brite.dao("Group").remove(groupId);
+						}
 					});
-				});
+					
+					// then delete group
+					dfd.done(function(){
+						var $item = $btn.closest(".groupItem");
+						$item.fadeOut(function(){
+							brite.dao("Group").remove(groupId);
+						});
+					});
+				}
 			});
 			
 			// show contact by group

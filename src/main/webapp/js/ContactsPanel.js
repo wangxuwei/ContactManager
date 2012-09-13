@@ -88,7 +88,7 @@
 					var obj = $(this).bObjRef();
 					var contactId = obj.id;
 					var dfd = $.Deferred();
-					brite.dao("Group").list({match:{contact_id:contactId}}).done(function(contactGroups){
+					brite.dao("GroupContact").list({match:{contact_id:contactId}}).done(function(contactGroups){
 						
 						//first delete relations
 						if(contactGroups.length > 0){
@@ -110,6 +110,7 @@
 					
 					// then delete group
 					dfd.done(function(){
+						console.log(1);
 						var $item = $btn.closest(".contactItem");
 						$item.fadeOut(function(){
 							brite.dao("Contact").remove(contactId).done(function(){

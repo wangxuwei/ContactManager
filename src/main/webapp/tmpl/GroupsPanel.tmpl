@@ -2,7 +2,9 @@
 	<div class="GroupsPanel panel">
 		<div class="GroupsPanel-header panel-header">
 			<span class="title">Groups</span>
-			<div class="btn btnCreateGroup btnRightHeader"><i class="icon-plus"></i><span> Create Group</span></div>
+			<div class="btnRightHeader">
+				<div class="btn btnCreateGroup "><i class="icon-plus"></i><span> Create Group</span></div>
+			</div>
 		</div>
 		<div class="GroupsPanel-content panel-content">
 			<div class="groupItem" data-obj_type="group" data-obj_id="">
@@ -17,7 +19,7 @@
 	<li class="groupItem" data-obj_type="group" data-obj_id="{{:id}}">
 		<span class="text"><i class="icon-tasks"></i>  {{:name}}</span>
 		<div class="next">&gt;</div>
-		<div class="btn btnDelete"><i class="icon-remove"></i></div>
+		<div class="btn btnDelete btn-danger"><i class="icon-remove icon-white"></i></div>
 		<div class="btn btnEdit"><i class="icon-pencil"></i></div>
 	</li>
 </script>

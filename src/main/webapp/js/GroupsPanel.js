@@ -52,6 +52,7 @@
 				brite.display("GroupCreate");
 			});
 			
+			
 			//show group dialog to create or update
 			$e.on("btap",".btnEdit",function(e){
 				e.stopPropagation();

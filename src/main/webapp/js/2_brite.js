@@ -175,12 +175,14 @@ brite.version = "0.9.0-snapshot";
 		
 	}
 
-	brite.defaultComponentConfig = {
+	brite.viewDefaultConfig = {
 	  loadTmpl: false,
 	  loadCss: false,
 		emptyParent : false,
 		postDisplayDelay : 0
 	}
+	
+	brite.defaultComponentConfig = brite.viewDefaultConfig;
 	// ------ /Public Properties: Config ------ //
 
 	/**
@@ -1230,30 +1232,6 @@ brite.ua = {};
 	}
   // --------- /Prefix and rendererType ------ //
   
-	// ------ jQuery css hooks ------ //
-	// for now, just support transofrm, will add more soon (need to test)
-	var css3PropNames = [ "transform" ];
-	var propName;
-	for ( var i = 0, l = css3PropNames.length; i < l; i++) {
-		propName = css3PropNames[i];
-		$.cssHooks[propName] = new CSSHook(propName);
-	}
-
-	function CSSHook(propName) {
-		this.propName = propName;
-		this.computedName = _cssVarPrefix + propName.substr(0, 1).toUpperCase() + propName.substr(1);
-	}
-
-	CSSHook.prototype.get = function(elem, computed, extra) {
-		return $.css(elem, this.computedName);
-	}
-
-	CSSHook.prototype.set = function(elem, val) {
-		elem.style[this.computedName] = val;
-	}
-
-	// ------ /jQuery css hooks ------ //
-
 	/**
 	 * return a css friendly string with all the "has-**" that this ua supports
 	 * 
@@ -1726,7 +1704,6 @@ var brite = brite || {};
 	 * - (events,objectTypes,func,namespace)
 	 * - (objectTypes,func,namespace)
 	 * - (func,namspace)
-	 * and all the above without the namespace
 	 *
 	 * Return an object with
 	 *   .events (with the namespace)
@@ -2319,9 +2296,8 @@ brite.event = brite.event || {};
   
   // helper function
   function performTransition($this,opts){
-    var cssPrefix = brite.ua.cssPrefix();
-    $this.css(cssPrefix + "transition",opts.transition);
-    $this.css(cssPrefix + "transform",opts.transform);
+    $this.css("transition",opts.transition);
+    $this.css("transform",opts.transform);
   }
 })(jQuery);  
 // ------ /transition helper ------ //

@@ -52,6 +52,29 @@
 				brite.display("GroupCreate");
 			});
 			
+			//toggle edit mode
+			$e.on("btap",".btnEditMode:not(.disable)",function(){
+				var $btn = $(this);
+				var dfd = $.Deferred();
+				$btn.addClass("disable");
+				if($btn.attr("data-mode") == "edit"){
+					$btn.attr("data-mode","");
+					$btn.html("Edit");
+					hideButtons.call(c).done(function(){
+						dfd.resolve();
+					});
+				}else{
+					$btn.html("Done");
+					$btn.attr("data-mode","edit");
+					showButtons.call(c).done(function(){
+						dfd.resolve();
+					});
+				}
+				dfd.done(function(){
+					$btn.removeClass("disable");
+				});
+			});
+			
 			
 			//show group dialog to create or update
 			$e.on("btap",".btnEdit",function(e){
@@ -129,6 +152,46 @@
 			});
 			
 		}
+		
+		function showButtons(){
+			var c = this;
+			var $e = c.$element;
+			var dfd = $.Deferred();
+			
+			//first show and make width is 0
+			$e.find(".groupItem .btn").show().find("i").width(0);
+			$e.find(".groupItem .btn i").addClass("transitioning");
+			setTimeout(function(){
+				//remove width style, change to origin width
+				$e.find(".groupItem .btn").find("i").css("width","");
+				$e.find(".groupItem .btn").find("i").one("btransitionend",function(){
+					$e.find(".groupItem .btn i").removeClass("transitioning");
+					dfd.resolve();
+				});
+			},1);
+			
+			return dfd.promise();
+		}
+		
+		function hideButtons(){
+			var c = this;
+			var $e = c.$element;
+			var dfd = $.Deferred();
+			
+			$e.find(".groupItem .btn i").addClass("transitioning");
+			setTimeout(function(){
+				//first make width is 0
+				$e.find(".groupItem .btn").find("i").width(0);
+				$e.find(".groupItem .btn").find("i").one("btransitionend",function(){
+					$e.find(".groupItem .btn i").removeClass("transitioning");
+					// hide buttons
+					$e.find(".groupItem .btn").hide();
+					dfd.resolve();
+				});
+			},1);
+			return dfd.promise();
+		}
+		
 		// --------- /Component Private Methods --------- //
 
 		// --------- Component Registration --------- //

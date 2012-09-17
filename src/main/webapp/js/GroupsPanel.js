@@ -79,7 +79,7 @@
 			//show group dialog to create or update
 			$e.on("btap",".btnEdit",function(e){
 				e.stopPropagation();
-				var obj = $(this).bObjRef();
+				var obj = $(this).bEntity();
 				brite.display("GroupCreate",{id:obj.id});
 			});
 			
@@ -89,7 +89,7 @@
 				var $btn = $(this);
 				if(!$btn.hasClass("disable")){
 					$btn.addClass("disable");
-					var obj = $(this).bObjRef();
+					var obj = $(this).bEntity();
 					var groupId = obj.id;
 					var dfd = $.Deferred();
 					brite.dao("GroupContact").list({match:{group_id:groupId}}).done(function(contactGroups){
@@ -123,7 +123,7 @@
 			
 			// show contact by group
 			$e.on("btap",".groupItem",function(){
-				var obj = $(this).bObjRef();
+				var obj = $(this).bEntity();
 				brite.display("ContactsPanel",{groupId:obj.id});
 			});
 		}

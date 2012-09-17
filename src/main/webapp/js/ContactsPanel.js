@@ -94,7 +94,7 @@
 			//show contact dialog to create or update
 			$e.on("btap",".btnEdit",function(e){
 				e.stopPropagation();
-				var obj = $(this).bObjRef();
+				var obj = $(this).bEntity();
 				brite.display("ContactCreate",{id:obj.id}).done(function(contactCreate){
 					contactCreate.onUpdate(function(){
 						refresh.call(c);
@@ -108,7 +108,7 @@
 				var $btn = $(this);
 				if(!$btn.hasClass("disable")){
 					$btn.addClass("disable");
-					var obj = $(this).bObjRef();
+					var obj = $(this).bEntity();
 					var contactId = obj.id;
 					var dfd = $.Deferred();
 					brite.dao("GroupContact").list({match:{contact_id:contactId}}).done(function(contactGroups){
@@ -147,13 +147,13 @@
 			// show contact groups dialog
 			$e.on("btap",".btnSelectGroup",function(e){
 				e.stopPropagation();
-				var obj = $(this).bObjRef();
+				var obj = $(this).bEntity();
 				brite.display("ContactGroups",{id:obj.id});
 			});
 			
 			// show contact info panel
 			$e.on("btap",".contactItem",function(){
-				var obj = $(this).bObjRef();
+				var obj = $(this).bEntity();
 				brite.display("ContactInfo",{id:obj.id,groupId:c.groupId});
 			});
 		}

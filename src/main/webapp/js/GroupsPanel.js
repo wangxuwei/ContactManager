@@ -38,7 +38,7 @@
 			refresh.call(c);
 			
 			// on dataChange of a group, just refresh all for now (can be easily optimized)
-			brite.dao.onDataChange("Group",function(){
+			brite.dao.onDataChange("create,remove,update","Group",function(){
 				$(document).trigger("DO_GROUPSPANEL_REFRESH");
 			},c.id);
 			
@@ -130,6 +130,7 @@
 		
 		GroupsPanel.prototype.destroy = function() {
 			$(document).off("."+this.id);
+			brite.dao.offAny(this.id);
 		}
 		// --------- /Component Interface Implementation ---------- //
 

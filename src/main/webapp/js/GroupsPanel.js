@@ -38,7 +38,7 @@
 			refresh.call(c);
 			
 			// on dataChange of a group, just refresh all for now (can be easily optimized)
-			brite.dao.onDataChange("create,remove,update","Group",function(){
+			brite.dao.onDataChange("Group",function(){
 				$(document).trigger("DO_GROUPSPANEL_REFRESH");
 			},c.id);
 			

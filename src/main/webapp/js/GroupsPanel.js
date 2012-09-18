@@ -98,7 +98,7 @@
 						if(contactGroups.length > 0){
 							app.util.serialResolve(contactGroups,function(contactGroup){
 								var innerDfd = $.Deferred();
-								brite.dao.remove("GroupContact",contactGroup.id).done(function(){
+								brite.dao("GroupContact").remove(contactGroup.id).done(function(){
 									innerDfd.resolve();
 								});
 								

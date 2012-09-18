@@ -165,9 +165,17 @@
 			setTimeout(function(){
 				//remove width style, change to origin width
 				$e.find(".groupItem .btn").find("i").css("width","");
-				$e.find(".groupItem .btn").find("i").one("btransitionend",function(){
-					$e.find(".groupItem .btn i").removeClass("transitioning");
-					dfd.resolve();
+				var size = $e.find(".groupItem .btn i").size();
+				var i = 0;
+				$e.find(".groupItem .btn i").each(function(){
+					var $i = $(this);
+					$i.one("btransitionend",function(){
+						$i.removeClass("transitioning");
+						i++;
+						if(i == size){
+							dfd.resolve();
+						}
+					});
 				});
 			},1);
 			
@@ -183,11 +191,19 @@
 			setTimeout(function(){
 				//first make width is 0
 				$e.find(".groupItem .btn").find("i").width(0);
-				$e.find(".groupItem .btn").find("i").one("btransitionend",function(){
-					$e.find(".groupItem .btn i").removeClass("transitioning");
-					// hide buttons
-					$e.find(".groupItem .btn").hide();
-					dfd.resolve();
+				var size = $e.find(".groupItem .btn i").size();
+				var i = 0;
+				$e.find(".groupItem .btn i").each(function(){
+					var $i = $(this);
+					$i.one("btransitionend",function(){
+						i++;
+						$i.removeClass("transitioning");
+						// hide buttons
+						$i.closest(".btn").hide();
+						if(i == size){
+							dfd.resolve();
+						}
+					});
 				});
 			},1);
 			return dfd.promise();

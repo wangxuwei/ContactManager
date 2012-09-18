@@ -178,6 +178,10 @@
 					var html = $("#tmpl-ContactsPanel-contactItem").render(contact);
 					$contacts.append($(html));
 				}			
+				
+				if(c.edit){
+					showButtons.call(c);
+				}
 			});
 			
 		}
@@ -186,26 +190,37 @@
 			var c = this;
 			var $e = c.$element;
 			var dfd = $.Deferred();
+			var $btn = $e.find(".btnEditMode");
 			
-			//first show and make width is 0
-			$e.find(".contactItem .btn").show().find("i").width(0);
-			$e.find(".contactItem .btn i").addClass("transitioning");
-			setTimeout(function(){
-				//remove width style, change to origin width
-				$e.find(".contactItem .btn").find("i").css("width","");
-				var size = $e.find(".contactItem .btn i").size();
-				var i = 0;
-				$e.find(".contactItem .btn i").each(function(){
-					var $i = $(this);
-					$i.one("btransitionend",function(){
-						$i.removeClass("transitioning");
-						i++;
-						if(i == size){
-							dfd.resolve();
-						}
+			$btn.html("Done");
+			$btn.attr("data-mode","edit");
+			
+			if(c.edit){
+				$e.find(".contactItem .btn").show().find("i").css("width","");
+				c.edit = true;
+				dfd.resolve();
+			}else{
+				//first show and make width is 0
+				$e.find(".contactItem .btn").show().find("i").width(0);
+				$e.find(".contactItem .btn i").addClass("transitioning");
+				setTimeout(function(){
+					//remove width style, change to origin width
+					$e.find(".contactItem .btn").find("i").css("width","");
+					var size = $e.find(".contactItem .btn i").size();
+					var i = 0;
+					$e.find(".contactItem .btn i").each(function(){
+						var $i = $(this);
+						$i.one("btransitionend",function(){
+							$i.removeClass("transitioning");
+							i++;
+							if(i == size){
+								c.edit = true;
+								dfd.resolve();
+							}
+						});
 					});
-				});
-			},1);
+				},1);
+			}
 			
 			return dfd.promise();
 		}
@@ -214,6 +229,10 @@
 			var c = this;
 			var $e = c.$element;
 			var dfd = $.Deferred();
+			var $btn = $e.find(".btnEditMode");
+			
+			$btn.attr("data-mode","");
+			$btn.html("Edit");
 			
 			$e.find(".contactItem .btn i").addClass("transitioning");
 			setTimeout(function(){
@@ -230,6 +249,7 @@
 						$i.closest(".btn").hide();
 						if(i == size){
 							dfd.resolve();
+							c.edit = false;
 						}
 					});
 				});

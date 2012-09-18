@@ -58,14 +58,10 @@
 				var dfd = $.Deferred();
 				$btn.addClass("disable");
 				if($btn.attr("data-mode") == "edit"){
-					$btn.attr("data-mode","");
-					$btn.html("Edit");
 					hideButtons.call(c).done(function(){
 						dfd.resolve();
 					});
 				}else{
-					$btn.html("Done");
-					$btn.attr("data-mode","edit");
 					showButtons.call(c).done(function(){
 						dfd.resolve();
 					});
@@ -150,6 +146,10 @@
 					var html = $("#tmpl-GroupsPanel-groupItem").render(group);
 					$groups.append($(html));
 				}
+				
+				if(c.edit){
+					showButtons.call(c);
+				}
 			});
 			
 		}
@@ -158,26 +158,37 @@
 			var c = this;
 			var $e = c.$element;
 			var dfd = $.Deferred();
+			var $btn = $e.find(".btnEditMode");
 			
-			//first show and make width is 0
-			$e.find(".groupItem .btn").show().find("i").width(0);
-			$e.find(".groupItem .btn i").addClass("transitioning");
-			setTimeout(function(){
-				//remove width style, change to origin width
-				$e.find(".groupItem .btn").find("i").css("width","");
-				var size = $e.find(".groupItem .btn i").size();
-				var i = 0;
-				$e.find(".groupItem .btn i").each(function(){
-					var $i = $(this);
-					$i.one("btransitionend",function(){
-						$i.removeClass("transitioning");
-						i++;
-						if(i == size){
-							dfd.resolve();
-						}
+			$btn.html("Done");
+			$btn.attr("data-mode","edit");
+			
+			if(c.edit){
+				$e.find(".groupItem .btn").show().find("i").css("width","");
+				c.edit = true;
+				dfd.resolve();
+			}else{
+				//first show and make width is 0
+				$e.find(".groupItem .btn").show().find("i").width(0);
+				$e.find(".groupItem .btn i").addClass("transitioning");
+				setTimeout(function(){
+					//remove width style, change to origin width
+					$e.find(".groupItem .btn").find("i").css("width","");
+					var size = $e.find(".groupItem .btn i").size();
+					var i = 0;
+					$e.find(".groupItem .btn i").each(function(){
+						var $i = $(this);
+						$i.one("btransitionend",function(){
+							$i.removeClass("transitioning");
+							i++;
+							if(i == size){
+								c.edit = true;
+								dfd.resolve();
+							}
+						});
 					});
-				});
-			},1);
+				},1);
+			}
 			
 			return dfd.promise();
 		}
@@ -186,6 +197,10 @@
 			var c = this;
 			var $e = c.$element;
 			var dfd = $.Deferred();
+			var $btn = $e.find(".btnEditMode");
+			
+			$btn.attr("data-mode","");
+			$btn.html("Edit");
 			
 			$e.find(".groupItem .btn i").addClass("transitioning");
 			setTimeout(function(){
@@ -202,6 +217,7 @@
 						$i.closest(".btn").hide();
 						if(i == size){
 							dfd.resolve();
+							c.edit = false;
 						}
 					});
 				});

@@ -1,0 +1,66 @@
+<script id="tmpl-ContactView" type="text/html">
+	<div class="ContactView modal ">
+	<div class="card">
+		<div class="card-face card-front">
+			<div class="contactCreate">
+				<div class="contactCreate-header modal-header">
+					<div class="close btnClose"><i class="icon-remove"></i></div>
+					<div class="close btnCardFlip"><i class="icon-th-list"></i></div>
+					<h3>Create Contact</h3>
+				</div>
+				<div class="contactCreate-content modal-body">
+					<div class="form-horizontal">
+						<div class="control-group">
+							<div class="control-label">Contact name:</div>
+							<div class="controls">
+								<input type='text' name="contactName" value="{{:name}}" />
+							</div>
+						</div>
+						<div class="control-group">
+							<div class="control-label">Contact Addreass:</div>
+							<div class="controls">
+								<input type='text' name="contactAddress" value="{{:address}}" />
+							</div>
+						</div>
+						<div class="control-group">
+							<div class="control-label">Contact email:</div>
+							<div class="controls">
+								<input type='text' name="contactEmail" value="{{:email}}" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="contactCreate-footer modal-footer">
+					<div class="btn btn-primary btnUpdate">Save</div>
+					<div class="btn btnClose">Close</div>
+				</div>
+			</div> 
+		</div> 
+		<div class="card-face card-back"> 
+			<div class="contactGroups">
+				<div class="contactGroups-header modal-header">
+					<div class="close btnClose"><i class="icon-remove"></i></div>
+					<div class="close btnCardFlip"><i class="icon-user"></i></div>
+					<h3>Select Groups</h3>
+				</div>
+				<div class="contactGroups-content modal-body">
+					<div class="form-horizontal">
+						<div class="control-group">
+							<div class="control-label">Groups:</div>
+							<div class="controls">
+								{{for groups}}
+									<input type='checkbox' name="group" value="{{:id}}" {{if checked}}checked{{/if}} /> {{:name}} <br/>
+								{{/for}}
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="contactGroups-footer modal-footer">
+					<div class="btn btn-primary btnUpdate">Save</div>
+					<div class="btn btnClose">Close</div>
+				</div>
+			</div>  
+		</div>
+	</div>  
+	</div>  
+</script>

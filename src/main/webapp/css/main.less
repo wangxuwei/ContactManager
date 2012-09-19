@@ -118,3 +118,34 @@ html,body{
 .transitioning-fast{
 	.transition(all .2s ease-in-out);
 }
+
+/*--------- Card ---------*/
+.card{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  .transition(-webkit-transform .5s);
+  .transform-style(preserve-3d);
+}
+
+.card .card-face{
+  opacity: .999; /* hack to allow position: relative or absolute in the card-face */
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  .backface-visibility(hidden);
+}
+
+.card .card-front{
+  
+}
+
+.card .card-back{
+  .transform(rotateY( -180deg ));
+}
+
+.card.flipped {
+  .transform(rotateY( 180deg ));
+}
+/*--------- /Card ---------*/

@@ -95,11 +95,7 @@
 			$e.on("btap",".btnEdit",function(e){
 				e.stopPropagation();
 				var obj = $(this).bEntity();
-				brite.display("ContactCreate",{id:obj.id}).done(function(contactCreate){
-					contactCreate.onUpdate(function(){
-						refresh.call(c);
-					});
-				});
+				brite.display("ContactView",{id:obj.id});
 			});
 			
 			//delete contact when click delete button
@@ -148,7 +144,7 @@
 			$e.on("btap",".btnSelectGroup",function(e){
 				e.stopPropagation();
 				var obj = $(this).bEntity();
-				brite.display("ContactGroups",{id:obj.id});
+				brite.display("ContactView",{id:obj.id,flip:true});
 			});
 			
 			// show contact info panel

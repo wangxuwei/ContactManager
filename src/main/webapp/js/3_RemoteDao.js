@@ -143,6 +143,24 @@ var app = app || {};
 
 		return dfd.promise();
 	}
+	
+	RemoteDao.prototype.removeMany = function(ids) {
+		var reqData = {
+			objType : this._entityType
+		}
+		reqData.obj_ids = JSON.stringify({obj_ids: ids});
+
+		var dfd = $.ajax({
+			type : "POST",
+			url : "daoDeleteMany.do",
+			data : reqData,
+			dataType : "json"
+		}).pipe(function(val) {
+			return ids;
+		});
+
+		return dfd.promise();
+	};
 
 
 	brite.dao.RemoteDao = RemoteDao;
@@ -150,83 +168,3 @@ var app = app || {};
 
 })(jQuery);
 // --------- /Remote Dao --------- //
-
-
-// --------- CustomRemoteDao --------- //
-// This is the new RemoteDao that supports FormData can custom WebActionHandler names for create and update. 
-// 
-// TODO: eventually, the RemoteDao should handle this, but we do the CustomRemoteDao right now
-//       to move the entity daos one at a time.
-(function($){
-	 
-	//  Constructor that allows to override the default create, update, remove
-	function CustomRemoteDao(opts){
-		// Note: remember, do not do initialization in the constructor, but call a init if needed.
-		// See: http://www.kevlindev.com/tutorials/javascript/inheritance/inheritance10.htm
-		if (arguments.length > 0){
-			this.init(opts);
-		}
-	}
-	brite.inherit(CustomRemoteDao,brite.dao.RemoteDao);
-	
-	CustomRemoteDao.prototype.init = function(opts){
-		this.opts = $.extend({},defaultOpts,opts);
-	}
-	
-	CustomRemoteDao.prototype.create = function (formData){
-		var dfd = $.Deferred();
-		
-		var postDfd = app.post(this.opts.create,formData);
-	   
-	    postDfd.done(function(result) {
-	    	result = result.result;
-	    	if(result.type == "PokerValidationError") {
-	    		dfd.reject(result.failedProps);
-	    	} else { 
-	    		dfd.resolve(result);
-	    	}
-	    });
-		
-	// I don't think you should need this as the failure should be handled by the component
-		postDfd.fail(function(ex){
-			console.log("ERROR create!!!! " + ex);
-			dfd.reject(ex);
-		});
-		
-		return dfd.promise();
-	}; 
-
-	CustomRemoteDao.prototype.update = function (id,formData){
-		var dfd = $.Deferred();
-		formData.append("id",id);
-		
-		var postDfd = app.post(this.opts.update,formData);
-	   
-	    postDfd.done(function(result){
-	    	result = result.result;
-	    	if(result.type == "PokerValidationError") {
-	    		dfd.reject(result.failedProps);
-	    	} else { 
-	    		dfd.resolve(result);
-	    	}
-	    });
-		
-		postDfd.fail(function(ex){
-			console.log("ERROR update!!!! " + ex);
-			dfd.reject(ex);
-		});		
-		
-		return dfd.promise();
-	};
-	
-	var defaultOpts = {
-		create: "daoSave.do",
-		update: "daoSave.do",
-		remove: "daoDelete.do" 
-	} 	
-	
-	brite.dao.CustomRemoteDao = CustomRemoteDao;
-})(jQuery);
-// --------- /CustomRemoteDao --------- //
-
-

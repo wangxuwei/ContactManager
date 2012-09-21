@@ -1,4 +1,3 @@
-var app = app || {};
 
 // --------- Remote Dao --------- //
 (function($) {

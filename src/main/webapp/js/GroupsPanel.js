@@ -25,9 +25,12 @@
 		};
 
 		GroupsPanel.prototype.create = function(data, config) {
-			var html = $("#tmpl-GroupsPanel").render(data);
-			var $e = $(html);
-			return $e;
+			var dfd = $.Deferred();
+			renderer.render("GroupsPanel",data).done(function(html){
+				var $e = $(html);
+				dfd.resolve($e);
+			});
+			return dfd.promise();
 		}
 
 
@@ -141,15 +144,15 @@
 			var $groups = $e.find(".groupsList").empty();
 			
 			brite.dao("Group").list().done(function(groups){
-				for(var i = 0; i < groups.length; i++){
-					var group = groups[i];
-					var html = $("#tmpl-GroupsPanel-groupItem").render(group);
-					$groups.append($(html));
-				}
-				
-				if(c.edit){
-					showButtons.call(c);
-				}
+				app.util.serialResolve(groups,function(group){
+					renderer.render("GroupsPanel-groupItem",group).done(function(html){
+						$groups.append($(html));
+					});
+				}).done(function(){
+					if(c.edit){
+						showButtons.call(c);
+					}
+				});
 			});
 			
 		}

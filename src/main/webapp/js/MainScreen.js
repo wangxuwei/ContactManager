@@ -23,9 +23,12 @@
 		};
 
 		MainScreen.prototype.create = function(data, config) {
-			var html = $("#tmpl-MainScreen").render(data);
-			var $e = $(html);
-			return $e;
+			var dfd = $.Deferred();
+			renderer.render("MainScreen",data).done(function(html){
+				var $e = $(html);
+				dfd.resolve($e);
+			});
+			return dfd.promise();
 		}
 
 
@@ -61,5 +64,11 @@
 		// --------- Component Registration --------- //
 
 	})(jQuery);
-
+	
+	// load screen
+	$(function() {
+		$('#renderframe').on("load",function(){
+			brite.display("MainScreen");
+		});
+	});
 })();

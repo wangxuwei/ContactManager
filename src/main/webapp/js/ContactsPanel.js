@@ -34,9 +34,10 @@
 					groupName = group.name;
 				}
 				data.groupName = groupName;
-				var html = $("#tmpl-ContactsPanel").render(data);
-				var $e = $(html);
-				createDfd.resolve($e);
+				renderer.render("ContactsPanel",data).done(function(){
+					var $e = $(html);
+					createDfd.resolve($e);
+				});
 			});
 			return createDfd.promise();
 		}
@@ -169,15 +170,15 @@
 			var $e = c.$element;
 			var $contacts = $e.find(".contactsList").empty();
 			brite.dao("Contact").getContactsByGroup(c.groupId).done(function(contacts){
-				for (var i = 0; i < contacts.length; i++) {
-					var contact = contacts[i];
-					var html = $("#tmpl-ContactsPanel-contactItem").render(contact);
-					$contacts.append($(html));
-				}			
-				
-				if(c.edit){
-					showButtons.call(c);
-				}
+				app.util.serialResolve(contacts,function(group){
+					renderer.render("ContactsPanel-contactItem",contact).done(function(html){
+						$contacts.append($(html));
+					});
+				}).done(function(){
+					if(c.edit){
+						showButtons.call(c);
+					}
+				});
 			});
 			
 		}

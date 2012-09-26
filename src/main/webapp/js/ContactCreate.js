@@ -39,11 +39,12 @@
 			}
 			dfd.done(function(contact){
 				c.contactId = contact.id;
-				var html = $("#tmpl-ContactCreate").render(contact);
-				var $e = $(html);
-				//show a screen to prevent use click other places
-				c.$screen = $("<div class='notTransparentScreen'></div>").appendTo("#bodyPage");
-				createDfd.resolve($e);
+				renderer.render("ContactCreate",contact).done(function(html){
+					var $e = $(html);
+					//show a screen to prevent use click other places
+					c.$screen = $("<div class='notTransparentScreen'></div>").appendTo("#bodyPage");
+					createDfd.resolve($e);
+				});
 			});
 
 			return createDfd.promise();

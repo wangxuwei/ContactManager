@@ -42,9 +42,10 @@
 				//get all groups with whether selected or not
 				brite.dao("Contact").getAllGroupsWithSelect(data.id).done(function(groups){
 					contact.groups = groups;
-					var html = $("#tmpl-ContactInfo").render(contact);
-					var $e = $(html);
-					createDfd.resolve($e);
+					renderer.render("ContactInfo",contact).done(function(html){
+						var $e = $(html);
+						createDfd.resolve($e);
+					});
 				});
 			});
 

@@ -42,14 +42,15 @@
 				//get all groups with whether selected or not
 				brite.dao("Contact").getAllGroupsWithSelect(data.id).done(function(groups){
 					contact.groups = groups;
-					var html = $("#tmpl-ContactView").render(contact);
-					var $e = $(html);
-					if(data.flip){
-						$e.find(".card").addClass("flipped");
-					}
-					//show a screen to prevent use click other places
-					c.$screen = $("<div class='notTransparentScreen'></div>").appendTo("#bodyPage");
-					createDfd.resolve($e);
+					renderer.render("ContactView",contact).done(function(html){
+						var $e = $(html);
+						if(data.flip){
+							$e.find(".card").addClass("flipped");
+						}
+						//show a screen to prevent use click other places
+						c.$screen = $("<div class='notTransparentScreen'></div>").appendTo("#bodyPage");
+						createDfd.resolve($e);
+					});
 				});
 			});
 

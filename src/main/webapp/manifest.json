@@ -1,0 +1,15 @@
+{
+	"manifest_version": 2,
+	"name": "Contacts Manager",
+	"description": "Contacts Manager.",
+	"version": "0.1",
+	"app": {
+		"background": {
+			"scripts": ["js/background.js"]
+		}
+	},
+	"sandbox": {
+		"pages": ["sandbox.html"]
+	},
+	"permissions" : ["unlimitedStorage", "http://*/"]
+}

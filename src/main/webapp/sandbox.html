@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script type="text/javascript" src="js/0_jquery.min.js"></script>
+    <script type="text/javascript" src="js/1_jsrender.js"></script>
+            
+  </head>
+
+  <body>
+  	<script>
+      // Set up message event handler:
+      $(window).on("message",function(e){
+      	var originalEvent = e.originalEvent
+		var data = originalEvent.data;
+		var tmpl = $(data.tmplSource).render(data.tmplData);
+        originalEvent.source.postMessage({'tmpl': tmpl}, originalEvent.origin);
+      });
+    </script>
+  </body>
+</html>

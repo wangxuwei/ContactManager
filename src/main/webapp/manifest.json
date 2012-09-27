@@ -5,7 +5,7 @@
 	"version": "0.1",
 	"app": {
 		"background": {
-			"scripts": ["js/background.js"]
+			"scripts": ["background.js"]
 		}
 	},
 	"sandbox": {

@@ -67,8 +67,12 @@
 	
 	// load screen
 	$(function() {
-		$('#renderframe').on("load",function(){
+		if(renderer.isChromeApp){
+			renderer.$rendererFrame.on("load",function(){
+				brite.display("MainScreen");
+			});
+		}else{
 			brite.display("MainScreen");
-		});
+		}
 	});
 })();

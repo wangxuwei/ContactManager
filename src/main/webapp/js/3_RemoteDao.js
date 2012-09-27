@@ -22,7 +22,7 @@
 
 		return $.ajax({
 			type : "GET",
-			url : contextPath + "/daoGet.json",
+			url : app.remoteServiceURL + "/daoGet.json",
 			data : data,
 			dataType : "json"
 		}).pipe(function(val) {
@@ -53,7 +53,7 @@
 		}
 		return $.ajax({
 			type : "GET",
-			url : contextPath + "/daoList.json",
+			url : app.remoteServiceURL + "/daoList.json",
 			data : data,
 			dataType : "json"
 		}).pipe(function(val) {
@@ -83,7 +83,7 @@
 		};
 		var dfd = $.ajax({
 			type : "POST",
-			url : "daoSave.do",
+			url : app.remoteServiceURL + "/daoSave.do",
 			data : reqData,
 			dataType : "json"
 		}).pipe(function(val) {
@@ -110,7 +110,7 @@
 
 		return $.ajax({
 			type : "POST",
-			url : "daoSave.do",
+			url :app.remoteServiceURL + "/daoSave.do",
 			data : reqData,
 			dataType : "json"
 		}).pipe(function(val) {
@@ -133,7 +133,7 @@
 
 		var dfd = $.ajax({
 			type : "POST",
-			url : "daoDelete.do",
+			url : app.remoteServiceURL + "/daoDelete.do",
 			data : reqData,
 			dataType : "json"
 		}).pipe(function(val) {
@@ -151,7 +151,7 @@
 
 		var dfd = $.ajax({
 			type : "POST",
-			url : "daoDeleteMany.do",
+			url : app.remoteServiceURL + "/daoDeleteMany.do",
 			data : reqData,
 			dataType : "json"
 		}).pipe(function(val) {

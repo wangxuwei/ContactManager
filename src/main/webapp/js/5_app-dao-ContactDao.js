@@ -12,7 +12,7 @@
 
 		return $.ajax({
 			type : "GET",
-			url : contextPath + "/getAllGroupsWithSelect.json",
+			url : app.remoteServiceURL + "/getAllGroupsWithSelect.json",
 			data : data,
 			dataType : "json"
 		}).pipe(function(val) {
@@ -50,7 +50,7 @@
 
 		return $.ajax({
 			type : "GET",
-			url : contextPath + "/getContactsByGroup.json",
+			url : app.remoteServiceURL + "/getContactsByGroup.json",
 			data : data,
 			dataType : "json"
 		}).pipe(function(val) {

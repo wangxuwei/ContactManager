@@ -34,7 +34,7 @@
 					groupName = group.name;
 				}
 				data.groupName = groupName;
-				renderer.render("ContactsPanel",data).done(function(){
+				renderer.render("ContactsPanel",data).done(function(html){
 					var $e = $(html);
 					createDfd.resolve($e);
 				});
@@ -170,7 +170,7 @@
 			var $e = c.$element;
 			var $contacts = $e.find(".contactsList").empty();
 			brite.dao("Contact").getContactsByGroup(c.groupId).done(function(contacts){
-				app.util.serialResolve(contacts,function(group){
+				app.util.serialResolve(contacts,function(contact){
 					renderer.render("ContactsPanel-contactItem",contact).done(function(html){
 						$contacts.append($(html));
 					});

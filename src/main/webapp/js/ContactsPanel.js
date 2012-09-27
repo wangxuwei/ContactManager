@@ -171,9 +171,12 @@
 			var $contacts = $e.find(".contactsList").empty();
 			brite.dao("Contact").getContactsByGroup(c.groupId).done(function(contacts){
 				app.util.serialResolve(contacts,function(contact){
+					var innerDfd = $.Deferred();
 					renderer.render("ContactsPanel-contactItem",contact).done(function(html){
 						$contacts.append($(html));
+						innerDfd.resolve();
 					});
+					return innerDfd.promise();
 				}).done(function(){
 					if(c.edit){
 						showButtons.call(c);

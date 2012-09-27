@@ -145,9 +145,12 @@
 			
 			brite.dao("Group").list().done(function(groups){
 				app.util.serialResolve(groups,function(group){
+					var innerDfd = $.Deferred();
 					renderer.render("GroupsPanel-groupItem",group).done(function(html){
 						$groups.append($(html));
+						innerDfd.resolve();
 					});
+					return innerDfd.promise();
 				}).done(function(){
 					if(c.edit){
 						showButtons.call(c);

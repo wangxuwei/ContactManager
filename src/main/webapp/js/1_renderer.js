@@ -15,7 +15,7 @@ $(function() {
 		var dfd = $.Deferred();
 		tmplData = tmplData || {};
 		if(renderer.isChromeApp){
-			var tmplSource = $("<div></div>").append($("#tmpl-" + name)).html();
+			var tmplSource = $("<div></div>").append($("#tmpl-" + name).html()).html();
 			sendToSandBoxForRender(tmplSource, tmplData).done(function(resultData) {
 				dfd.resolve($(resultData.tmpl));
 			});

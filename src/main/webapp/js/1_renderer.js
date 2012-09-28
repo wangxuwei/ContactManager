@@ -11,6 +11,9 @@ $(function() {
 });
 
 (function($){
+	//cache render deferred object which send to sandbox
+	var _renderDfdCache = {};
+	
 	renderer.render = function(name, tmplData) {
 		var dfd = $.Deferred();
 		tmplData = tmplData || {};
@@ -28,17 +31,24 @@ $(function() {
 
 	function sendToSandBoxForRender(tmplSource, tmplData) {
 		var renderDfd = $.Deferred();
+		var renderId = brite.uuid();
 		var opts = {
 			tmplData : tmplData,
-			tmplSource : tmplSource
+			tmplSource : tmplSource,
+			renderId: renderId
 		};
-		
-		$(window).one("message", function(e) {
-			var resultData = e.originalEvent.data;
-			renderDfd.resolve(resultData);
-		});
+		_renderDfdCache[renderId] = renderDfd;
 		renderer.$rendererFrame[0].contentWindow.postMessage(opts, "*");
 
 		return renderDfd.promise();
 	};
+	
+	$(window).on("message.render", function(e) {
+		var resultData = e.originalEvent.data;
+		var renderId = resultData.renderId;
+		if(_renderDfdCache[renderId]){
+			var renderDfd = _renderDfdCache[renderId];
+			renderDfd.resolve(resultData);
+		}
+	});
 })(jQuery);

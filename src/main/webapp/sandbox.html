@@ -14,7 +14,7 @@
       	var originalEvent = e.originalEvent
 		var data = originalEvent.data;
 		var tmpl = $(data.tmplSource).render(data.tmplData);
-        originalEvent.source.postMessage({'tmpl': tmpl}, originalEvent.origin);
+        originalEvent.source.postMessage({'tmpl': tmpl,renderId:data.renderId}, originalEvent.origin);
       });
     </script>
   </body>

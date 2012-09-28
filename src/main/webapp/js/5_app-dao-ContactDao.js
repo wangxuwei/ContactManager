@@ -35,7 +35,7 @@
 		data.selectGroupIds = groupIds;
 		var dfd = $.ajax({
 			type : "POST",
-			url : "updateGroups.do",
+			url : app.remoteServiceURL + "/updateGroups.do",
 			data : data,
 			dataType : "json"
 		}).pipe(function(val) {

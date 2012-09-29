@@ -38,8 +38,25 @@
 			
 			brite.display("GroupsPanel");
 			
+			// add select class when press $item
+			$(document).on("DO_SELECT_ITEM." + c.id,function(event,extra){
+				var $item = extra.$item;
+				$item.addClass("selected");
+			});
+			
+			// remove select class when press up $item
+			$(document).on("DO_NOT_SELECT_ITEM." + c.id,function(event,extra){
+				var $item = extra.$item;
+				console.log($item.parent().children());
+				$item.parent().children().removeClass("selected");
+			});
+			
 		}
 
+		MainScreen.prototype.destroy = function() {
+			var c = this;
+			$(document).off("."+c.id);
+		}
 		// --------- /Component Interface Implementation ---------- //
 
 		// --------- Component Public API --------- //

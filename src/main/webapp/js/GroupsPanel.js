@@ -50,6 +50,16 @@
 				refresh.call(c);
 			});
 			
+			//when mouse down/touch start add some style
+			$e.on(app.pressEvent,".groupItem",function(){
+				$(this).trigger("DO_SELECT_ITEM",{$item:$(this)});
+			});
+			
+			//when drag end remove the styles
+			$e.on("bdragend",".groupItem",function(){
+				$(this).trigger("DO_NOT_SELECT_ITEM",{$item:$(this)});
+			});
+			
 			//create group when user click
 			$e.on("btap",".btnCreateGroup",function(){
 				brite.display("GroupCreate");

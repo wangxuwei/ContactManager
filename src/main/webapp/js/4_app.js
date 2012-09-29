@@ -9,5 +9,7 @@ var app = app || {};
 	// else use memory dao
 	app.dataMode = 'Remote';
 	
+	// if support touchstart event use touchstart, else use mousedown
+	app.pressEvent = brite.ua.hasTouch() ? "touchstart" : "mousedown";
 })(jQuery);
 

@@ -60,6 +60,16 @@
 				brite.display("GroupsPanel",{},{transition:"slideLeft"});
 			});
 			
+			//when mouse down/touch start add some style
+			$e.on(app.pressEvent,".contactItem",function(){
+				$(this).trigger("DO_SELECT_ITEM",{$item:$(this)});
+			});
+			
+			//when drag end remove the styles
+			$e.on("bdragend",".contactItem",function(){
+				$(this).trigger("DO_NOT_SELECT_ITEM",{$item:$(this)});
+			});
+			
 			//create contact when user click
 			$e.on("btap",".btnCreateContact",function(){
 				brite.display("ContactCreate",{groupId:c.groupId}).done(function(contactCreate){

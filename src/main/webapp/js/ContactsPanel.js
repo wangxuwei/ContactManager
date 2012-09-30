@@ -1,285 +1,284 @@
 ;(function() {
 
 	/**
-	 * Component: ContactsPanel
+	 * View: ContactsPanel
 	 *
 	 * Responsibilities:
 	 *   - Display all the ContactsPanel Content of the ContactsPanel screen. (today below the TobBar)
-	 *
-	 * Constructor Data:
-	 *  - none
-	 *
-	 * Component API:
-	 *  format: [method_name]([args]) : [concise description]
-	 *  - none
-	 *
-	 * Component Events:
-	 *  format: [ComponentName_[DO]_event_name]([argument | argumentsMap]): [concise description]
-	 * - none
-	 *
 	 */
-	(function($) {
-
-		// --------- Component Interface Implementation ---------- //
-		function ContactsPanel() {
-		};
-
-		ContactsPanel.prototype.create = function(data, config) {
+	brite.registerView("ContactsPanel", {
+		loadTmpl : true,
+		emptyParent : true,
+		transition : "slideRight",
+		parent : ".MainScreen-content"
+	}, {
+		create : function(data, config) {
 			data = data || {};
 			this.groupId = data.groupId || "";
 			var createDfd = $.Deferred();
-			brite.dao("Group").get(data.groupId).done(function(group){
+			brite.dao("Group").get(data.groupId).done(function(group) {
 				var groupName = "All"
-				if(group){
+				if (group) {
 					groupName = group.name;
 				}
 				data.groupName = groupName;
-				renderer.render("ContactsPanel",data).done(function(html){
+				renderer.render("ContactsPanel", data).done(function(html) {
 					var $e = $(html);
 					createDfd.resolve($e);
 				});
 			});
 			return createDfd.promise();
-		}
+		},
 
-
-		ContactsPanel.prototype.postDisplay = function(data, config) {
-			var view = this;
-			var $e = view.$el;
-			var mainScreen = $e.bComponent("MainScreen");
-			
-			refresh.call(c);
-			
-			//bind event with refresh contacts
-			$(document).on("DO_CONTACTSPANEL_REFRESH",function(){
-				refresh.call(c);
-			});
-			
+		events : {
 			//show group panel view
-			$e.on("btap",".btnBack",function(){
-				brite.display("GroupsPanel",{},{transition:"slideLeft"});
-			});
-			
-			//when mouse down/touch start add some style
-			$e.on(app.pressEvent,".contactItem",function(){
-				$(this).trigger("DO_SELECT_ITEM",{$item:$(this)});
-			});
-			
+			"btap;.btnBack" : function() {
+				brite.display("GroupsPanel", {}, {
+					transition : "slideLeft"
+				});
+			},
+			//when mouse down add some style
+			"mousedown;.contactItem" : function(event) {
+				var $item = $(event.currentTarget);
+				$item.trigger("DO_SELECT_ITEM", {
+					$item : $item
+				});
+			},
 			//when drag end remove the styles
-			$e.on("bdragend",".contactItem",function(){
-				$(this).trigger("DO_NOT_SELECT_ITEM",{$item:$(this)});
-			});
-			
+			"bdragend;.contactItem" : function(event) {
+				var $item = $(event.currentTarget);
+				$item.trigger("DO_NOT_SELECT_ITEM", {
+					$item : $item
+				});
+			},
 			//create contact when user click
-			$e.on("btap",".btnCreateContact",function(){
-				brite.display("ContactCreate",{groupId:view.groupId}).done(function(contactCreate){
-					contactCreate.onUpdate(function(){
+			"btap;.btnCreateContact" : function() {
+				var view = this;
+				brite.display("ContactCreate", {
+					groupId : view.groupId
+				}).done(function(contactCreate) {
+					contactCreate.onUpdate(function() {
 						$(document).trigger("DO_CONTACTSPANEL_REFRESH");
 					});
 				});
-			});
-			
+			},
 			//toggle edit mode
-			$e.on("btap",".btnEditMode:not(.disable)",function(){
-				var $btn = $(this);
+			"btap;.btnEditMode:not(.disable)" : function(event) {
+				var $btn = $(event.currentTarget);
+				var view = this;
 				var dfd = $.Deferred();
 				$btn.addClass("disable");
-				if($btn.attr("data-mode") == "edit"){
-					$btn.attr("data-mode","");
+				if ($btn.attr("data-mode") == "edit") {
+					$btn.attr("data-mode", "");
 					$btn.html("Edit");
-					hideButtons.call(c).done(function(){
+					hideButtons.call(view).done(function() {
 						dfd.resolve();
 					});
-				}else{
+				} else {
 					$btn.html("Done");
-					$btn.attr("data-mode","edit");
-					showButtons.call(c).done(function(){
+					$btn.attr("data-mode", "edit");
+					showButtons.call(view).done(function() {
 						dfd.resolve();
 					});
 				}
-				dfd.done(function(){
+				dfd.done(function() {
 					$btn.removeClass("disable");
 				});
-			});
-			
+			},
 			//show contact dialog to create or update
-			$e.on("btap",".btnEdit",function(e){
+			"btap;.btnEdit" : function(e) {
 				e.stopPropagation();
-				var obj = $(this).bEntity();
-				brite.display("ContactView",{id:obj.id});
-			});
-			
+				var obj = $(e.currentTarget).bEntity();
+				brite.display("ContactView", {
+					id : obj.id
+				});
+			},
 			//delete contact when click delete button
-			$e.on("btap",".btnDelete",function(e){
+			"btap;.btnDelete" : function(e) {
 				e.stopPropagation();
-				var $btn = $(this);
-				if(!$btn.hasClass("disable")){
+				var view = this;
+				var $btn = $(e.currentTarget);
+				if (!$btn.hasClass("disable")) {
 					$btn.addClass("disable");
-					var obj = $(this).bEntity();
+					var obj = $btn.bEntity();
 					var contactId = obj.id;
 					var dfd = $.Deferred();
-					brite.dao("GroupContact").list({match:{contact_id:contactId}}).done(function(contactGroups){
-						
+					brite.dao("GroupContact").list({
+						match : {
+							contact_id : contactId
+						}
+					}).done(function(contactGroups) {
+
 						//first delete relations
-						if(contactGroups.length > 0){
-							app.util.serialResolve(contactGroups,function(contactGroup){
+						if (contactGroups.length > 0) {
+							app.util.serialResolve(contactGroups, function(contactGroup) {
 								var innerDfd = $.Deferred();
-								brite.dao("GroupContact").remove(contactGroup.id).done(function(){
+								brite.dao("GroupContact").remove(contactGroup.id).done(function() {
 									innerDfd.resolve();
 								});
-								
+
 								return innerDfd.promise();
-							}).done(function(){
+							}).done(function() {
 								dfd.resolve();
 							});
-						}else{
+						} else {
 							dfd.resolve();
 						}
-						
+
 					});
-					
+
 					// then delete group
-					dfd.done(function(){
-						console.log(1);
+					dfd.done(function() {
 						var $item = $btn.closest(".contactItem");
-						$item.fadeOut(function(){
-							brite.dao("Contact").remove(contactId).done(function(){
-								refresh.call(c);
+						$item.fadeOut(function() {
+							brite.dao("Contact").remove(contactId).done(function() {
+								refresh.call(view);
 							});
 						});
 					});
 				}
-			});
-			
+			},
+
 			// show contact groups dialog
-			$e.on("btap",".btnSelectGroup",function(e){
+			"btap;.btnSelectGroup" : function(e) {
 				e.stopPropagation();
-				var obj = $(this).bEntity();
-				brite.display("ContactView",{id:obj.id,flip:true});
-			});
-			
+				var obj = $(e.currentTarget).bEntity();
+				brite.display("ContactView", {
+					id : obj.id,
+					flip : true
+				});
+			},
+
 			// show contact info panel
-			$e.on("btap",".contactItem",function(){
-				var obj = $(this).bEntity();
-				brite.display("ContactInfo",{id:obj.id,groupId:view.groupId});
-			});
-		}
+			"btap;.contactItem" : function(e) {
+				var view = this;
+				var obj = $(e.currentTarget).bEntity();
+				brite.display("ContactInfo", {
+					id : obj.id,
+					groupId : view.groupId
+				});
+			},
 
-		ContactsPanel.prototype.destroy = function() {
-			$(document).off("."+this.id);
-		}
-		// --------- /Component Interface Implementation ---------- //
+		},
 
-		// --------- Component Public API --------- //
+		docEvents : {
+			//bind event with refresh contacts
+			"DO_CONTACTSPANEL_REFRESH" : function() {
+				var view = this;
+				refresh.call(view);
+			}
 
-		// --------- /Component Public API --------- //
+		},
+		
+		daoEvents : {
+			// on dataChange of contact, just refresh all for now (can be easily optimized)
+			"dataChange;Contact" : function() {
+				var view = this;
+				refresh.call(view);
+			}
 
-		// --------- Component Private Methods --------- //
-		function refresh(){
+		},
+
+		postDisplay : function(data, config) {
 			var view = this;
 			var $e = view.$el;
-			var $contacts = $e.find(".contactsList").empty();
-			brite.dao("Contact").getContactsByGroup(view.groupId).done(function(contacts){
-				app.util.serialResolve(contacts,function(contact){
-					var innerDfd = $.Deferred();
-					renderer.render("ContactsPanel-contactItem",contact).done(function(html){
-						$contacts.append($(html));
-						innerDfd.resolve();
+
+			refresh.call(view);
+		}
+
+	});
+	// --------- View Private Methods --------- //
+	function refresh() {
+		var view = this;
+		var $e = view.$el;
+		var $contacts = $e.find(".contactsList").empty();
+		brite.dao("Contact").getContactsByGroup(view.groupId).done(function(contacts) {
+			app.util.serialResolve(contacts, function(contact) {
+				var innerDfd = $.Deferred();
+				renderer.render("ContactsPanel-contactItem", contact).done(function(html) {
+					$contacts.append($(html));
+					innerDfd.resolve();
+				});
+				return innerDfd.promise();
+			}).done(function() {
+				if (view.edit) {
+					showButtons.call(view);
+				}
+			});
+		});
+
+	}
+
+	function showButtons() {
+		var view = this;
+		var $e = view.$el;
+		var dfd = $.Deferred();
+		var $btn = $e.find(".btnEditMode");
+
+		$btn.html("Done");
+		$btn.attr("data-mode", "edit");
+
+		if (view.edit) {
+			$e.find(".contactItem .btn").show().find("i").css("width", "");
+			view.edit = true;
+			dfd.resolve();
+		} else {
+			//first show and make width is 0
+			$e.find(".contactItem .btn").show().find("i").width(0);
+			$e.find(".contactItem .btn i").addClass("transitioning");
+			setTimeout(function() {
+				//remove width style, change to origin width
+				$e.find(".contactItem .btn").find("i").css("width", "");
+				var size = $e.find(".contactItem .btn i").size();
+				var i = 0;
+				$e.find(".contactItem .btn i").each(function() {
+					var $i = $(this);
+					$i.one("btransitionend", function() {
+						$i.removeClass("transitioning");
+						i++;
+						if (i == size) {
+							view.edit = true;
+							dfd.resolve();
+						}
 					});
-					return innerDfd.promise();
-				}).done(function(){
-					if(view.edit){
-						showButtons.call(c);
+				});
+			}, 1);
+		}
+
+		return dfd.promise();
+	}
+
+	function hideButtons() {
+		var view = this;
+		var $e = view.$el;
+		var dfd = $.Deferred();
+		var $btn = $e.find(".btnEditMode");
+
+		$btn.attr("data-mode", "");
+		$btn.html("Edit");
+
+		$e.find(".contactItem .btn i").addClass("transitioning");
+		setTimeout(function() {
+			//first make width is 0
+			$e.find(".contactItem .btn").find("i").width(0);
+			var size = $e.find(".contactItem .btn i").size();
+			var i = 0;
+			$e.find(".contactItem .btn i").each(function() {
+				var $i = $(this);
+				$i.one("btransitionend", function() {
+					i++;
+					$i.removeClass("transitioning");
+					// hide buttons
+					$i.closest(".btn").hide();
+					if (i == size) {
+						dfd.resolve();
+						view.edit = false;
 					}
 				});
 			});
-			
-		}
-		
-		function showButtons(){
-			var view = this;
-			var $e = view.$el;
-			var dfd = $.Deferred();
-			var $btn = $e.find(".btnEditMode");
-			
-			$btn.html("Done");
-			$btn.attr("data-mode","edit");
-			
-			if(view.edit){
-				$e.find(".contactItem .btn").show().find("i").css("width","");
-				view.edit = true;
-				dfd.resolve();
-			}else{
-				//first show and make width is 0
-				$e.find(".contactItem .btn").show().find("i").width(0);
-				$e.find(".contactItem .btn i").addClass("transitioning");
-				setTimeout(function(){
-					//remove width style, change to origin width
-					$e.find(".contactItem .btn").find("i").css("width","");
-					var size = $e.find(".contactItem .btn i").size();
-					var i = 0;
-					$e.find(".contactItem .btn i").each(function(){
-						var $i = $(this);
-						$i.one("btransitionend",function(){
-							$i.removeClass("transitioning");
-							i++;
-							if(i == size){
-								view.edit = true;
-								dfd.resolve();
-							}
-						});
-					});
-				},1);
-			}
-			
-			return dfd.promise();
-		}
-		
-		function hideButtons(){
-			var view = this;
-			var $e = view.$el;
-			var dfd = $.Deferred();
-			var $btn = $e.find(".btnEditMode");
-			
-			$btn.attr("data-mode","");
-			$btn.html("Edit");
-			
-			$e.find(".contactItem .btn i").addClass("transitioning");
-			setTimeout(function(){
-				//first make width is 0
-				$e.find(".contactItem .btn").find("i").width(0);
-				var size = $e.find(".contactItem .btn i").size();
-				var i = 0;
-				$e.find(".contactItem .btn i").each(function(){
-					var $i = $(this);
-					$i.one("btransitionend",function(){
-						i++;
-						$i.removeClass("transitioning");
-						// hide buttons
-						$i.closest(".btn").hide();
-						if(i == size){
-							dfd.resolve();
-							view.edit = false;
-						}
-					});
-				});
-			},1);
-			return dfd.promise();
-		}
-		
-		// --------- /Component Private Methods --------- //
+		}, 1);
+		return dfd.promise();
+	}
 
-		// --------- Component Registration --------- //
-		brite.registerView("ContactsPanel", {
-			loadTmpl : true,
-			emptyParent : true,
-			transition : "slideRight",
-			parent:".MainScreen-content"
-		}, function() {
-			return new ContactsPanel();
-		});
-		// --------- Component Registration --------- //
-
-	})(jQuery);
-
+	// --------- /View Private Methods --------- //
 })();

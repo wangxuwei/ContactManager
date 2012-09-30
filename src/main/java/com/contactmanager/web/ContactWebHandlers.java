@@ -66,6 +66,9 @@ public class ContactWebHandlers {
     @WebActionHandler
     public void updateGroups(@WebParam("contactId") Long contactId, @WebParam("selectGroupIds") String selectGroupIds) {
         String[] groupIds = selectGroupIds.split(",");
+        if(groupIds != null && groupIds.length == 1 && groupIds[0] != null && groupIds[0].equals("")){
+            groupIds = new String[0];
+        }
         Long[] sids = new Long[groupIds.length];
         int i = 0;
         for(String id : groupIds){

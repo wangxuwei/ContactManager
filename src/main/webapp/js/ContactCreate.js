@@ -52,7 +52,7 @@
 
 		ContactCreate.prototype.postDisplay = function(data, config) {
 			var c = this;
-			var $e = c.$element;
+			var $e = c.$el;
 			
 			//close dialog when user click 
 			$e.on("btap",".btnClose",function(){
@@ -70,7 +70,7 @@
 		// --------- Component Public API --------- //
 		ContactCreate.prototype.close = function(update) {
 			var c = this;
-			var $e = c.$element;
+			var $e = c.$el;
 			
 			$e.bRemove();
 			c.$screen.remove();
@@ -88,7 +88,7 @@
 		// --------- Component Private Methods --------- //
 		function saveContact(){
 			var c = this;
-			var $e = c.$element;
+			var $e = c.$el;
 			
 			var name = $e.find("input[name='contactName']").val();
 			var address = $e.find("input[name='contactAddress']").val();

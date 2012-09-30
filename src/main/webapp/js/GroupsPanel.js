@@ -36,7 +36,7 @@
 
 		GroupsPanel.prototype.postDisplay = function(data, config) {
 			var c = this;
-			var $e = c.$element;
+			var $e = c.$el;
 			
 			refresh.call(c);
 			
@@ -150,7 +150,7 @@
 		// --------- Component Private Methods --------- //
 		function refresh(){
 			var c = this;
-			var $e = c.$element;
+			var $e = c.$el;
 			var $groups = $e.find(".groupsList").empty();
 			
 			brite.dao("Group").list().done(function(groups){
@@ -172,7 +172,7 @@
 		
 		function showButtons(){
 			var c = this;
-			var $e = c.$element;
+			var $e = c.$el;
 			var dfd = $.Deferred();
 			var $btn = $e.find(".btnEditMode");
 			
@@ -211,7 +211,7 @@
 		
 		function hideButtons(){
 			var c = this;
-			var $e = c.$element;
+			var $e = c.$el;
 			var dfd = $.Deferred();
 			var $btn = $e.find(".btnEditMode");
 			

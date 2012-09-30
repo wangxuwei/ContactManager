@@ -34,7 +34,7 @@
 
 		MainScreen.prototype.postDisplay = function(data, config) {
 			var c = this;
-			var $e = c.$element;
+			var $e = c.$el;
 			
 			brite.display("GroupsPanel");
 			

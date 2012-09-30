@@ -54,7 +54,7 @@
 
 		ContactInfo.prototype.postDisplay = function(data, config) {
 			var c = this;
-			var $e = c.$element;
+			var $e = c.$el;
 			
 			// show contacts panel view
 			$e.on("btap",".btnBack",function(){
@@ -75,7 +75,7 @@
 		// --------- Component Private Methods --------- //
 		function saveContact(){
 			var c = this;
-			var $e = c.$element;
+			var $e = c.$el;
 			
 			var name = $e.find("input[name='contactName']").val();
 			var address = $e.find("input[name='contactAddress']").val();

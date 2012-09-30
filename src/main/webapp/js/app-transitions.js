@@ -100,7 +100,7 @@ var app = app || {};
 	brite.registerTransition("slideLeft",function(component,data,config){
 		var $parent = $(config.parent);
 		var $current = null;
-		var $new = component.$element;
+		var $new = component.$el;
 		if(config.emptyParent){
 			$current = $parent.children()
 		}
@@ -110,7 +110,7 @@ var app = app || {};
 	brite.registerTransition("slideRight",function(component,data,config){
 		var $parent = $(config.parent);
 		var $current = null;
-		var $new = component.$element;
+		var $new = component.$el;
 		if(config.emptyParent){
 			$current = $parent.children()
 		}
@@ -121,7 +121,7 @@ var app = app || {};
 	brite.registerTransition("dialogSlide",function(component,data,config){
 		var $parent = $(config.parent);
 		var $current = null;
-		var $new = component.$element;
+		var $new = component.$el;
 		if(config.emptyParent){
 			$current = $parent.children()
 		}

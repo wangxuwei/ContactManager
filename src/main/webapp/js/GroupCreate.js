@@ -50,7 +50,7 @@
 
 		GroupCreate.prototype.postDisplay = function(data, config) {
 			var c = this;
-			var $e = c.$element;
+			var $e = c.$el;
 			
 			
 			$e.on("btap",".btnClose",function(){
@@ -67,7 +67,7 @@
 		// --------- Component Public API --------- //
 		GroupCreate.prototype.close = function() {
 			var c = this;
-			var $e = c.$element;
+			var $e = c.$el;
 			
 			$e.bRemove();
 			c.$screen.remove();
@@ -78,7 +78,7 @@
 		// --------- Component Private Methods --------- //
 		function saveGroup(){
 			var c = this;
-			var $e = c.$element;
+			var $e = c.$el;
 			
 			var name = $e.find("input[name='groupName']").val();
 			var data = {

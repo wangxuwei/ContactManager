@@ -45,7 +45,7 @@
 
 		ContactsPanel.prototype.postDisplay = function(data, config) {
 			var c = this;
-			var $e = c.$element;
+			var $e = c.$el;
 			var mainScreen = $e.bComponent("MainScreen");
 			
 			refresh.call(c);
@@ -177,7 +177,7 @@
 		// --------- Component Private Methods --------- //
 		function refresh(){
 			var c = this;
-			var $e = c.$element;
+			var $e = c.$el;
 			var $contacts = $e.find(".contactsList").empty();
 			brite.dao("Contact").getContactsByGroup(c.groupId).done(function(contacts){
 				app.util.serialResolve(contacts,function(contact){
@@ -198,7 +198,7 @@
 		
 		function showButtons(){
 			var c = this;
-			var $e = c.$element;
+			var $e = c.$el;
 			var dfd = $.Deferred();
 			var $btn = $e.find(".btnEditMode");
 			
@@ -237,7 +237,7 @@
 		
 		function hideButtons(){
 			var c = this;
-			var $e = c.$element;
+			var $e = c.$el;
 			var dfd = $.Deferred();
 			var $btn = $e.find(".btnEditMode");
 			

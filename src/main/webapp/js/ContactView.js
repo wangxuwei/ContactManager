@@ -25,11 +25,11 @@
 		};
 
 		ContactView.prototype.create = function(data, config) {
-			var c = this;
+			var view = this;
 			var dfd = $.Deferred();
 			var createDfd = $.Deferred();
 			data = data || {};
-			c.groupId = data.groupId;
+			view.groupId = data.groupId;
 			if(data.id){
 				brite.dao("Contact").get(data.id).done(function(contact) {
 					dfd.resolve(contact);
@@ -38,7 +38,7 @@
 				dfd.resolve({});
 			}
 			dfd.done(function(contact){
-				c.contactId = contact.id;
+				view.contactId = contact.id;
 				//get all groups with whether selected or not
 				brite.dao("Contact").getAllGroupsWithSelect(data.id).done(function(groups){
 					contact.groups = groups;
@@ -48,7 +48,7 @@
 							$e.find(".card").addClass("flipped");
 						}
 						//show a screen to prevent use click other places
-						c.$screen = $("<div class='notTransparentScreen'></div>").appendTo("#bodyPage");
+						view.$screen = $("<div class='notTransparentScreen'></div>").appendTo("#bodyPage");
 						createDfd.resolve($e);
 					});
 				});
@@ -58,12 +58,12 @@
 		}
 
 		ContactView.prototype.postDisplay = function(data, config) {
-			var c = this;
-			var $e = c.$el;
+			var view = this;
+			var $e = view.$el;
 			
 			//close dialog when user click 
 			$e.on("btap",".btnClose",function(){
-				c.close();
+				view.close();
 			});
 			
 			// save contact info when user click
@@ -81,19 +81,19 @@
 
 		// --------- Component Public API --------- //
 		ContactView.prototype.close = function(update) {
-			var c = this;
-			var $e = c.$el;
+			var view = this;
+			var $e = view.$el;
 			
 			$e.bRemove();
-			c.$screen.remove();
+			view.$screen.remove();
 		}
 		
 		// --------- /Component Public API --------- //
 
 		// --------- Component Private Methods --------- //
 		function saveContact(){
-			var c = this;
-			var $e = c.$el;
+			var view = this;
+			var $e = view.$el;
 			
 			var name = $e.find("input[name='contactName']").val();
 			var address = $e.find("input[name='contactAddress']").val();
@@ -106,8 +106,8 @@
 			var dfd = $.Deferred();
 			
 			// save contact info
-			if(c.contactId){
-				data.id = c.contactId;
+			if(view.contactId){
+				data.id = view.contactId;
 				brite.dao("Contact").update(data).done(function(){
 					var nGroupsIds = [];
 					$e.find("input[name='group']:checked").each(function(){
@@ -115,14 +115,14 @@
 					});
 					
 					// save contact groups
-					brite.dao("Contact").updateGroups(c.contactId,nGroupsIds).done(function(){
+					brite.dao("Contact").updateGroups(view.contactId,nGroupsIds).done(function(){
 						dfd.resolve();
 					});
 				});
 				
 				//show contact list
 				dfd.done(function(){
-					c.close();
+					view.close();
 				});
 			}
 			

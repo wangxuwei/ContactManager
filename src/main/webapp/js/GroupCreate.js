@@ -25,7 +25,7 @@
 		};
 
 		GroupCreate.prototype.create = function(data, config) {
-			var c = this;
+			var view = this;
 			var dfd = $.Deferred();
 			var createDfd = $.Deferred();
 			data = data || {};
@@ -37,10 +37,10 @@
 				dfd.resolve({});
 			}
 			dfd.done(function(group){
-				c.groupId = group.id;
+				view.groupId = group.id;
 				renderer.render("GroupCreate",group).done(function(html){
 					var $e = $(html);
-					c.$screen = $("<div class='notTransparentScreen'></div>").appendTo("#bodyPage");
+					view.$screen = $("<div class='notTransparentScreen'></div>").appendTo("#bodyPage");
 					createDfd.resolve($e);
 				});
 			});
@@ -49,12 +49,12 @@
 		}
 
 		GroupCreate.prototype.postDisplay = function(data, config) {
-			var c = this;
-			var $e = c.$el;
+			var view = this;
+			var $e = view.$el;
 			
 			
 			$e.on("btap",".btnClose",function(){
-				c.close();
+				view.close();
 			});
 			
 			$e.on("btap",".btnCreate",function(){
@@ -66,19 +66,19 @@
 
 		// --------- Component Public API --------- //
 		GroupCreate.prototype.close = function() {
-			var c = this;
-			var $e = c.$el;
+			var view = this;
+			var $e = view.$el;
 			
 			$e.bRemove();
-			c.$screen.remove();
+			view.$screen.remove();
 		}
 		
 		// --------- /Component Public API --------- //
 
 		// --------- Component Private Methods --------- //
 		function saveGroup(){
-			var c = this;
-			var $e = c.$el;
+			var view = this;
+			var $e = view.$el;
 			
 			var name = $e.find("input[name='groupName']").val();
 			var data = {
@@ -86,14 +86,14 @@
 			};
 			
 			// if exist group id, do update, else do create
-			if(c.groupId){
-				data.id = c.groupId;
+			if(view.groupId){
+				data.id = view.groupId;
 				brite.dao("Group").update(data).done(function(){
-					c.close();
+					view.close();
 				});
 			}else{
 				brite.dao("Group").create(data).done(function(){
-					c.close();
+					view.close();
 				});
 			}
 			

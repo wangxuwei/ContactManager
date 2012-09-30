@@ -35,18 +35,18 @@
 
 
 		GroupsPanel.prototype.postDisplay = function(data, config) {
-			var c = this;
-			var $e = c.$el;
+			var view = this;
+			var $e = view.$el;
 			
 			refresh.call(c);
 			
 			// on dataChange of a group, just refresh all for now (can be easily optimized)
 			brite.dao.onDataChange("Group",function(){
 				$(document).trigger("DO_GROUPSPANEL_REFRESH");
-			},c.id);
+			},view.id);
 			
 			//bind event with refresh groups
-			$(document).on("DO_GROUPSPANEL_REFRESH."+c.id,function(){
+			$(document).on("DO_GROUPSPANEL_REFRESH."+view.id,function(){
 				refresh.call(c);
 			});
 			
@@ -149,8 +149,8 @@
 
 		// --------- Component Private Methods --------- //
 		function refresh(){
-			var c = this;
-			var $e = c.$el;
+			var view = this;
+			var $e = view.$el;
 			var $groups = $e.find(".groupsList").empty();
 			
 			brite.dao("Group").list().done(function(groups){
@@ -162,7 +162,7 @@
 					});
 					return innerDfd.promise();
 				}).done(function(){
-					if(c.edit){
+					if(view.edit){
 						showButtons.call(c);
 					}
 				});
@@ -171,17 +171,17 @@
 		}
 		
 		function showButtons(){
-			var c = this;
-			var $e = c.$el;
+			var view = this;
+			var $e = view.$el;
 			var dfd = $.Deferred();
 			var $btn = $e.find(".btnEditMode");
 			
 			$btn.html("Done");
 			$btn.attr("data-mode","edit");
 			
-			if(c.edit){
+			if(view.edit){
 				$e.find(".groupItem .btn").show().find("i").css("width","");
-				c.edit = true;
+				view.edit = true;
 				dfd.resolve();
 			}else{
 				//first show and make width is 0
@@ -198,7 +198,7 @@
 							$i.removeClass("transitioning");
 							i++;
 							if(i == size){
-								c.edit = true;
+								view.edit = true;
 								dfd.resolve();
 							}
 						});
@@ -210,8 +210,8 @@
 		}
 		
 		function hideButtons(){
-			var c = this;
-			var $e = c.$el;
+			var view = this;
+			var $e = view.$el;
 			var dfd = $.Deferred();
 			var $btn = $e.find(".btnEditMode");
 			
@@ -233,7 +233,7 @@
 						$i.closest(".btn").hide();
 						if(i == size){
 							dfd.resolve();
-							c.edit = false;
+							view.edit = false;
 						}
 					});
 				});

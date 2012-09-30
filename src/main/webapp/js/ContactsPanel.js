@@ -44,8 +44,8 @@
 
 
 		ContactsPanel.prototype.postDisplay = function(data, config) {
-			var c = this;
-			var $e = c.$el;
+			var view = this;
+			var $e = view.$el;
 			var mainScreen = $e.bComponent("MainScreen");
 			
 			refresh.call(c);
@@ -72,7 +72,7 @@
 			
 			//create contact when user click
 			$e.on("btap",".btnCreateContact",function(){
-				brite.display("ContactCreate",{groupId:c.groupId}).done(function(contactCreate){
+				brite.display("ContactCreate",{groupId:view.groupId}).done(function(contactCreate){
 					contactCreate.onUpdate(function(){
 						$(document).trigger("DO_CONTACTSPANEL_REFRESH");
 					});
@@ -161,7 +161,7 @@
 			// show contact info panel
 			$e.on("btap",".contactItem",function(){
 				var obj = $(this).bEntity();
-				brite.display("ContactInfo",{id:obj.id,groupId:c.groupId});
+				brite.display("ContactInfo",{id:obj.id,groupId:view.groupId});
 			});
 		}
 
@@ -176,10 +176,10 @@
 
 		// --------- Component Private Methods --------- //
 		function refresh(){
-			var c = this;
-			var $e = c.$el;
+			var view = this;
+			var $e = view.$el;
 			var $contacts = $e.find(".contactsList").empty();
-			brite.dao("Contact").getContactsByGroup(c.groupId).done(function(contacts){
+			brite.dao("Contact").getContactsByGroup(view.groupId).done(function(contacts){
 				app.util.serialResolve(contacts,function(contact){
 					var innerDfd = $.Deferred();
 					renderer.render("ContactsPanel-contactItem",contact).done(function(html){
@@ -188,7 +188,7 @@
 					});
 					return innerDfd.promise();
 				}).done(function(){
-					if(c.edit){
+					if(view.edit){
 						showButtons.call(c);
 					}
 				});
@@ -197,17 +197,17 @@
 		}
 		
 		function showButtons(){
-			var c = this;
-			var $e = c.$el;
+			var view = this;
+			var $e = view.$el;
 			var dfd = $.Deferred();
 			var $btn = $e.find(".btnEditMode");
 			
 			$btn.html("Done");
 			$btn.attr("data-mode","edit");
 			
-			if(c.edit){
+			if(view.edit){
 				$e.find(".contactItem .btn").show().find("i").css("width","");
-				c.edit = true;
+				view.edit = true;
 				dfd.resolve();
 			}else{
 				//first show and make width is 0
@@ -224,7 +224,7 @@
 							$i.removeClass("transitioning");
 							i++;
 							if(i == size){
-								c.edit = true;
+								view.edit = true;
 								dfd.resolve();
 							}
 						});
@@ -236,8 +236,8 @@
 		}
 		
 		function hideButtons(){
-			var c = this;
-			var $e = c.$el;
+			var view = this;
+			var $e = view.$el;
 			var dfd = $.Deferred();
 			var $btn = $e.find(".btnEditMode");
 			
@@ -259,7 +259,7 @@
 						$i.closest(".btn").hide();
 						if(i == size){
 							dfd.resolve();
-							c.edit = false;
+							view.edit = false;
 						}
 					});
 				});

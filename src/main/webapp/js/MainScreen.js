@@ -33,19 +33,19 @@
 
 
 		MainScreen.prototype.postDisplay = function(data, config) {
-			var c = this;
-			var $e = c.$el;
+			var view = this;
+			var $e = view.$el;
 			
 			brite.display("GroupsPanel");
 			
 			// add select class when press $item
-			$(document).on("DO_SELECT_ITEM." + c.id,function(event,extra){
+			$(document).on("DO_SELECT_ITEM." + view.id,function(event,extra){
 				var $item = extra.$item;
 				$item.addClass("selected");
 			});
 			
 			// remove select class when press up $item
-			$(document).on("DO_NOT_SELECT_ITEM." + c.id,function(event,extra){
+			$(document).on("DO_NOT_SELECT_ITEM." + view.id,function(event,extra){
 				var $item = extra.$item;
 				console.log($item.parent().children());
 				$item.parent().children().removeClass("selected");
@@ -54,8 +54,8 @@
 		}
 
 		MainScreen.prototype.destroy = function() {
-			var c = this;
-			$(document).off("."+c.id);
+			var view = this;
+			$(document).off("."+view.id);
 		}
 		// --------- /Component Interface Implementation ---------- //
 
@@ -67,7 +67,7 @@
 
 		// --------- Component Private Methods --------- //
 		function privateMethodOne() {
-			var c = this;
+			var view = this;
 
 		}
 

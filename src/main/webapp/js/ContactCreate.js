@@ -25,11 +25,11 @@
 		};
 
 		ContactCreate.prototype.create = function(data, config) {
-			var c = this;
+			var view = this;
 			var dfd = $.Deferred();
 			var createDfd = $.Deferred();
 			data = data || {};
-			c.groupId = data.groupId;
+			view.groupId = data.groupId;
 			if(data.id){
 				brite.dao("Contact").get(data.id).done(function(contact) {
 					dfd.resolve(contact);
@@ -38,11 +38,11 @@
 				dfd.resolve({});
 			}
 			dfd.done(function(contact){
-				c.contactId = contact.id;
+				view.contactId = contact.id;
 				renderer.render("ContactCreate",contact).done(function(html){
 					var $e = $(html);
 					//show a screen to prevent use click other places
-					c.$screen = $("<div class='notTransparentScreen'></div>").appendTo("#bodyPage");
+					view.$screen = $("<div class='notTransparentScreen'></div>").appendTo("#bodyPage");
 					createDfd.resolve($e);
 				});
 			});
@@ -51,12 +51,12 @@
 		}
 
 		ContactCreate.prototype.postDisplay = function(data, config) {
-			var c = this;
-			var $e = c.$el;
+			var view = this;
+			var $e = view.$el;
 			
 			//close dialog when user click 
 			$e.on("btap",".btnClose",function(){
-				c.close();
+				view.close();
 			});
 			
 			//save contact when click
@@ -69,26 +69,26 @@
 
 		// --------- Component Public API --------- //
 		ContactCreate.prototype.close = function(update) {
-			var c = this;
-			var $e = c.$el;
+			var view = this;
+			var $e = view.$el;
 			
 			$e.bRemove();
-			c.$screen.remove();
-			if(update && c._updateCallback && $.isFunction(c._updateCallback)){
-				c._updateCallback();
+			view.$screen.remove();
+			if(update && view._updateCallback && $.isFunction(view._updateCallback)){
+				view._updateCallback();
 			}
 		}
 		
 		ContactCreate.prototype.onUpdate = function(updateCallback) {
-			var c = this;
-			c._updateCallback = updateCallback;
+			var view = this;
+			view._updateCallback = updateCallback;
 		}
 		// --------- /Component Public API --------- //
 
 		// --------- Component Private Methods --------- //
 		function saveContact(){
-			var c = this;
-			var $e = c.$el;
+			var view = this;
+			var $e = view.$el;
 			
 			var name = $e.find("input[name='contactName']").val();
 			var address = $e.find("input[name='contactAddress']").val();
@@ -100,22 +100,22 @@
 			};
 			
 			// if contact id exist do update,else do create
-			if(c.contactId){
-				data.id = c.contactId;
+			if(view.contactId){
+				data.id = view.contactId;
 				brite.dao("Contact").update(data).done(function(){
-					c.close(true);
+					view.close(true);
 				});
 			}else{
 				brite.dao("Contact").create(data).done(function(obj){
 					// if group id exist save group and contact relation
-					if(c.groupId){
+					if(view.groupId){
 						var nGroupsIds = [];
-						nGroupsIds.push(c.groupId);
+						nGroupsIds.push(view.groupId);
 						brite.dao("Contact").updateGroups(obj.id,nGroupsIds).done(function(){
-							c.close(true);
+							view.close(true);
 						});
 					}else{
-						c.close(true);
+						view.close(true);
 					}
 				});
 			}

@@ -70,7 +70,7 @@
 			"btap;.btnEdit" : function(e) {
 				e.stopPropagation();
 				var obj = $(e.currentTarget).bEntity();
-				brite.display("GroupCreate", {
+				brite.display("GroupCreate", null, {
 					id : obj.id
 				});
 			},
@@ -120,7 +120,7 @@
 			// show contact by group
 			"btap;.groupItem" : function(e) {
 				var obj = $(e.currentTarget).bEntity();
-				brite.display("ContactsPanel", {
+				brite.display("ContactsPanel", null, {
 					groupId : obj.id
 				});
 			},

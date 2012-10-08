@@ -33,7 +33,7 @@
 		events : {
 			//show group panel view
 			"btap;.btnBack" : function() {
-				brite.display("GroupsPanel", {}, {
+				brite.display("GroupsPanel", null, {}, {
 					transition : "slideLeft"
 				});
 			},
@@ -54,7 +54,7 @@
 			//create contact when user click
 			"btap;.btnCreateContact" : function() {
 				var view = this;
-				brite.display("ContactCreate", {
+				brite.display("ContactCreate", null, {
 					groupId : view.groupId
 				}).done(function(contactCreate) {
 					contactCreate.onUpdate(function() {
@@ -89,7 +89,7 @@
 			"btap;.btnEdit" : function(e) {
 				e.stopPropagation();
 				var obj = $(e.currentTarget).bEntity();
-				brite.display("ContactView", {
+				brite.display("ContactView", null, {
 					id : obj.id
 				});
 			},
@@ -143,7 +143,7 @@
 			"btap;.btnSelectGroup" : function(e) {
 				e.stopPropagation();
 				var obj = $(e.currentTarget).bEntity();
-				brite.display("ContactView", {
+				brite.display("ContactView", null, {
 					id : obj.id,
 					flip : true
 				});
@@ -153,7 +153,7 @@
 			"btap;.contactItem" : function(e) {
 				var view = this;
 				var obj = $(e.currentTarget).bEntity();
-				brite.display("ContactInfo", {
+				brite.display("ContactInfo", null, {
 					id : obj.id,
 					groupId : view.groupId
 				});

@@ -47,7 +47,7 @@
 			// show contacts panel view
 			"btap;.btnBack" : function() {
 				var view = this;
-				brite.display("ContactsPanel", {
+				brite.display("ContactsPanel", null, {
 					groupId : view.groupId
 				}, {
 					transition : "slideLeft"
@@ -94,7 +94,7 @@
 
 			//show contact list
 			dfd.done(function() {
-				brite.display("ContactsPanel", {
+				brite.display("ContactsPanel", null, {
 					groupId : view.groupId
 				}, {
 					transition : "slideLeft"

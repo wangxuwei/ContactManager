@@ -38,16 +38,9 @@
 				});
 			},
 			//when mouse down add some style
-			"mousedown;.contactItem" : function(event) {
+			"click;.contactItem" : function(event) {
 				var $item = $(event.currentTarget);
 				$item.trigger("DO_SELECT_ITEM", {
-					$item : $item
-				});
-			},
-			//when drag end remove the styles
-			"bdragend;.contactItem" : function(event) {
-				var $item = $(event.currentTarget);
-				$item.trigger("DO_NOT_SELECT_ITEM", {
 					$item : $item
 				});
 			},

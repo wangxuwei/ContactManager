@@ -27,12 +27,11 @@
 			"DO_SELECT_ITEM" : function(event, extra) {
 				var $item = extra.$item;
 				$item.addClass("selected");
+				
+				setTimeout(function(){
+					$item.removeClass("selected");
+				},200);
 			},
-			// remove select class when press up $item
-			"DO_NOT_SELECT_ITEM" : function(event, extra) {
-				var $item = extra.$item;
-				$item.parent().children().removeClass("selected");
-			}
 
 		},
 

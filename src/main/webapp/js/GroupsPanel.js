@@ -24,21 +24,11 @@
 		events : {
 
 			//when mouse down/touch start add some style
-			"mousedown;.groupItem" : function(e) {
+			"click;.groupItem" : function(e) {
 				var $item = $(e.currentTarget);
 				$item.trigger("DO_SELECT_ITEM", {
 					$item : $item
 				});
-				console.log(2);
-			},
-
-			//when drag end remove the styles
-			"bdragend;.groupItem" : function(e) {
-				var $item = $(e.currentTarget);
-				$item.trigger("DO_NOT_SELECT_ITEM", {
-					$item : $item
-				});
-				console.log(3);
 			},
 
 			//create group when user click

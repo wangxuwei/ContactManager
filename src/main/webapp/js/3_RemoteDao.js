@@ -2,13 +2,22 @@
 // --------- Remote Dao --------- //
 (function($) {
 
-	function RemoteDao() {
+	function RemoteDao(entityType) {
+        this._entityType = entityType;
 	}
+
+
 
 	// ------ DAO Interface Implementation ------ //
 	RemoteDao.prototype.getIdName = function() {
 		return "id";
-	}
+	};
+
+    // --------- DAO Info Methods --------- //
+    RemoteDao.prototype.entityType = function () {
+        return this._entityType;
+    };
+    // --------- DAO Info Methods --------- //
 
 
 	RemoteDao.prototype.get = function(id) {
@@ -142,7 +151,7 @@
 
 		return dfd.promise();
 	}
-	
+
 	RemoteDao.prototype.removeMany = function(ids) {
 		var reqData = {
 			objType : this._entityType

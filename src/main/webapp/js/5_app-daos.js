@@ -82,14 +82,14 @@ var app = app || {};
 		brite.registerDao("Contact",new app.MockContactDao());
 	}else if(app.dataMode == 'Remote'){
 		//register RemoteDao
-		brite.registerDao("Group",new brite.dao.RemoteDao("Group"));
-		brite.registerDao("GroupContact",new brite.dao.RemoteDao("GroupContact"));
-		brite.registerDao("Contact",new app.RemoteContactDao());
+		brite.registerDao(new brite.dao.RemoteDao("Group"));
+		brite.registerDao(new brite.dao.RemoteDao("GroupContact"));
+		brite.registerDao(new app.RemoteContactDao());
 	}else{
 		//register InMemoryDao
-		brite.registerDao("Group",new brite.InMemoryDaoHandler());
-		brite.registerDao("GroupContact",new brite.InMemoryDaoHandler());
-		brite.registerDao("Contact",new app.InMemoryContactDao());
+		brite.registerDao(new brite.InMemoryDaoHandler("Group"));
+		brite.registerDao(new brite.InMemoryDaoHandler("GroupContact"));
+		brite.registerDao(new app.InMemoryContactDao());
 	}
 	
 	// add dao listeners

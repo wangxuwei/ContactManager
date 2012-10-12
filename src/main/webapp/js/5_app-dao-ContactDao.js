@@ -64,7 +64,7 @@
 	//-------- Mock dao ---------//
 	
 	function MockContactDao(){
-		this.constructor._super.constructor.call(this,"t_contact");
+		this.constructor._super.constructor.call(this,"Contact","t_contact");
 	}
 	brite.inherit(MockContactDao,brite.dao.SQLiteDao);
 	
@@ -205,7 +205,7 @@
 	//-------- InMemory dao ---------//
 	
 	function InMemoryContactDao(){
-		this.constructor._super.constructor.call(this);
+		this.constructor._super.constructor.call(this,"Contact");
 	}
 	brite.inherit(InMemoryContactDao,brite.InMemoryDaoHandler);
 	

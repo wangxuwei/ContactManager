@@ -55,16 +55,7 @@
 
 			$e.bRemove();
 			view.$screen.remove();
-			if (update && view._updateCallback && $.isFunction(view._updateCallback)) {
-				view._updateCallback();
-			}
 		},
-
-		onUpdate : function(updateCallback) {
-			var view = this;
-			view._updateCallback = updateCallback;
-		}
-
 	});
 
 	// --------- View Private Methods --------- //
@@ -85,7 +76,7 @@
 		if (view.contactId) {
 			data.id = view.contactId;
 			brite.dao("Contact").update(data).done(function() {
-				view.close(true);
+				view.close();
 			});
 		} else {
 			brite.dao("Contact").create(data).done(function(obj) {
@@ -94,10 +85,10 @@
 					var nGroupsIds = [];
 					nGroupsIds.push(view.groupId);
 					brite.dao("Contact").updateGroups(obj.id, nGroupsIds).done(function() {
-						view.close(true);
+						view.close();
 					});
 				} else {
-					view.close(true);
+					view.close();
 				}
 			});
 		}

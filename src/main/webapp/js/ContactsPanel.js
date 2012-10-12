@@ -54,13 +54,7 @@
 			//create contact when user click
 			"btap;.btnCreateContact" : function() {
 				var view = this;
-				brite.display("ContactCreate", null, {
-					groupId : view.groupId
-				}).done(function(contactCreate) {
-					contactCreate.onUpdate(function() {
-						$(document).trigger("DO_CONTACTSPANEL_REFRESH");
-					});
-				});
+				brite.display("ContactCreate", null, {groupId : view.groupId});
 			},
 			//toggle edit mode
 			"btap;.btnEditMode:not(.disable)" : function(event) {

@@ -77,9 +77,9 @@ var app = app || {};
 		
 		
 		//register SQLiteDao
-		brite.registerDao("Group",new brite.dao.SQLiteDao("t_group"));
-		brite.registerDao("GroupContact",new brite.dao.SQLiteDao("t_group_contact"));
-		brite.registerDao("Contact",new app.MockContactDao());
+		brite.registerDao(new brite.dao.SQLiteDao("Group","t_group"));
+		brite.registerDao(new brite.dao.SQLiteDao("GroupContact","t_group_contact"));
+		brite.registerDao(new app.MockContactDao());
 	}else if(app.dataMode == 'Remote'){
 		//register RemoteDao
 		brite.registerDao(new brite.dao.RemoteDao("Group"));

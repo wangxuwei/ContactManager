@@ -2,21 +2,18 @@
 	/**
 	 * Create a SQLiteDao type 
 	 * 
+	 * @param {String} entityType. create a table for dao with the entity type.
 	 * @param {String} tableName. create a table for dao with the tableName.
 	 * @param {String} identity. the primary key of the table.
-	 * @param {Array} tableDefine. each object for a column in Array, exclude the primary column.
+	 * tableDefine. each object for a column in Array, exclude the primary column.
 	 * 			Example format:
-	 * 			new SQLiteDao("tableName", "id", [{column:'name',dtype:'TEXT'},{column:'email',dtype:'TEXT'},{column:'sex',dtype:'INTEGER'}]);
+	 * 			[{column:'name',dtype:'TEXT'},{column:'email',dtype:'TEXT'},{column:'sex',dtype:'INTEGER'}]
 	 * 
 	 */
-	function SQLiteDao(tableName, identity){
-		this.init(tableName, identity);
-	}
-
-	SQLiteDao.prototype.init = function(tableName, identity){
+	function SQLiteDao(entityType, tableName, identity){
+		this._entityType = entityType;
 		this._identity = identity || 'id';
 		this._tableName = tableName;
-		return this;
 	}
 
 	// --------- DAO Interface Implementation --------- //
@@ -28,6 +25,12 @@
 	SQLiteDao.prototype.getIdName = function(){
 		return this._identity || "id";
 	}
+	
+	// --------- DAO Info Methods --------- //
+    SQLiteDao.prototype.entityType = function () {
+        return this._entityType;
+    };
+    // --------- DAO Info Methods --------- //
 
 	
 	/**
@@ -40,7 +43,7 @@
 		var dfd = $.Deferred();
 		if(id){
 			var sql = "SELECT * FROM " + dao._tableName + " where "
-					+ dao.getIdName(dao._tableName) + "=" + id;
+					+ dao.getIdName() + "=" + id;
 			app.SQLiteDB.transaction(function(transaction){
 				transaction.executeSql(sql, [], function(transaction, results){
 					var row = results.rows.item(0);
@@ -91,7 +94,7 @@
 
 				if(opts.ids && $.isArray(opts.ids)){
 					var ids = opts.ids;
-					condition += dao.getIdName(dao._tableName) + " and in (";
+					condition += dao.getIdName() + " and in (";
 					for ( var i = 0; i < ids.length; i++) {
 						condition += "'" + ids[i] + "'";
 						if (i != ids.length - 1) {
@@ -190,7 +193,7 @@
 			idx++;
 		}
 
-		uptSql += " where " + dao.getIdName(dao._tableName) + "=" + id;
+		uptSql += " where " + dao.getIdName() + "=" + id;
 		var dfd = $.Deferred();
 		app.SQLiteDB.transaction(function(transaction){
 			transaction.executeSql((uptSql), [],function(transaction, results){
@@ -218,7 +221,7 @@
 			var delSql = "DELETE FROM " + dao._tableName + " where ";
 			var condition = "1 != 1";
 			if(id){
-				condition = dao.getIdName(dao._tableName) + " = '" + id + "'";
+				condition = dao.getIdName() + " = '" + id + "'";
 			}
 			delSql = delSql + condition;
 			transaction.executeSql((delSql), [],function(transaction, results){
@@ -247,7 +250,7 @@
 			var delSql = "DELETE FROM " + dao._tableName + " where ";
 			var condition = "1 != 1";
 			if(ids){
-				condition = dao.getIdName(dao._tableName) + " in (";
+				condition = dao.getIdName() + " in (";
 				for ( var i = 0; i < ids.length; i++) {
 					condition += "'" + ids[i] + "'";
 					if (i != ids.length - 1) {
@@ -350,7 +353,7 @@
 				
 				if(opts.ids && $.isArray(opts.ids)){
 					var ids = opts.ids;
-					condition += dao.getIdName(dao._tableName) + " and in (";
+					condition += dao.getIdName() + " and in (";
 					for ( var i = 0; i < ids.length; i++) {
 						condition += "'" + ids[i] + "'";
 						if (i != ids.length - 1) {
